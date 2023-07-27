@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+<html lang="en">
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-9ndCyUaIbzAi2FUVXJi0CjmCapSmO7SnpJef0486qhLnuZ2cdeRhO02iuK6FUUVM" crossorigin="anonymous">
+<head>
+    <meta charset="UTF-8">
+    <title></title>
+</head>
+<body>
+<div>
+    <form method="post" action="/login">
+        <label>Enter your email:</label>
+        <input name="j_email"/>
+
+        <br>
+
+        <label>Enter your password:</label>
+        <input name="j_password"/>
+
+        <br>
+
+        <button class="btn btn-primary" type="submit">Sign in</button>
+
+    </form>
+</div>
+
+<a th:href="@{/registration}">
+    <button>Registration</button>
+</a>
+</body>
+</html>
