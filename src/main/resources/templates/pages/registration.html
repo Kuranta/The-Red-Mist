@@ -10,7 +10,7 @@
   <h1>User Creating</h1>
   <hr>
 
-  <form action="#" th:action="@{/registration}" th:object="${userForm}" method="post">
+  <form action="#" th:action="@{/registration/save}" th:object="${user}" method="post">
 
     <label for="name">Enter name:</label>
     <input type="text" th:field="*{name}" id="name" class="form-contol mb-4 col-4"/>

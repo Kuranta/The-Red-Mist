@@ -25,16 +25,23 @@ public class AuthController {
     }
 
     @GetMapping("/registration")
-    public String registrationPage(Model model){
-        model.addAttribute("userForm",new User());
+    public String getRegistrationForm(Model model){
+        model.addAttribute("user",new User());
         return "registration";
     }
 
-    @PostMapping("/registration")
-    public String submitRegisterPage(@ModelAttribute("userForm") User userForm,
-                                     @Valid BindingResult bindingResult){
-        if (bindingResult.hasErrors())
-        userService.saveUser(userForm);
+    @PostMapping("/registration/save")
+    public String submitRegisterPage(@ModelAttribute("userForm") User user,
+                                     @Valid BindingResult bindingResult, Model model){
+        User existingUserEmail = userService.getUserByEmail(user.getEmail());
+        if (existingUserEmail != null && existingUserEmail.getEmail() != null && !existingUserEmail.getEmail().isEmpty()) {
+            bindingResult.rejectValue("email", "There is already a user with this email.");
+        }
+        if (bindingResult.hasErrors()) {
+            model.addAttribute("user", user);
+            return "register";
+        }
+        userService.saveUser(user);
         return "redirect:/";
     }
 }

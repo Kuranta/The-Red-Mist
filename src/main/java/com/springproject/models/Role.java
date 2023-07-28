@@ -28,8 +28,7 @@ public class Role implements GrantedAuthority{
     private String role;
 
     @ManyToMany(mappedBy = "roles",
-            fetch = FetchType.EAGER,
-            cascade = CascadeType.ALL)
+            fetch = FetchType.EAGER)
     private Set<User> users = new HashSet<>();
 
     @Override

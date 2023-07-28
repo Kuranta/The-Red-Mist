@@ -1,6 +1,7 @@
 package com.springproject.models;
 
 import jakarta.persistence.*;
+import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.Size;
 import lombok.*;
 import org.springframework.security.core.GrantedAuthority;
@@ -33,12 +34,14 @@ public class User implements UserDetails {
 
     @Column
     @Size(min=2, message = "Incorrect email created")
+    @Email
     private String email; //Unique parameter
 
     @Column
+    @Size(min = 4, message = "Incorrect password created")
     private String password;
 
-    @ManyToMany(fetch = FetchType.EAGER,cascade = CascadeType.ALL)
+    @ManyToMany(fetch = FetchType.EAGER)
     @JoinTable(name = "usertable_roles",
     joinColumns = @JoinColumn(name = "users_id"),
     inverseJoinColumns = @JoinColumn(name = "roles_id"))

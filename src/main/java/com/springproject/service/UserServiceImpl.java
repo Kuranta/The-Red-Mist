@@ -27,6 +27,8 @@ public class UserServiceImpl implements UserService{
         return userDAO.readAllUser();
     }
 
+
+    //TODO rawPassword cannot be null, IllegalArgumentException.
     @Override
     @Transactional
     public void saveUser(User user) {

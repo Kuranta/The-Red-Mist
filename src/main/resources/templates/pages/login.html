@@ -7,8 +7,10 @@
     <title></title>
 </head>
 <body>
-<div>
-    <form method="post" action="/login">
+
+<form method="post" action="/login">
+        <div class="mb-3">
+
         <label>Enter your email:</label>
         <input name="j_email"/>
 
@@ -18,11 +20,11 @@
         <input name="j_password"/>
 
         <br>
+        </div>
 
         <button class="btn btn-primary" type="submit">Sign in</button>
 
     </form>
-</div>
 
 <a th:href="@{/registration}">
     <button>Registration</button>
