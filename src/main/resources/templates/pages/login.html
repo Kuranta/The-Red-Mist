@@ -9,25 +9,27 @@
 <body>
 
 <form method="post" action="/login">
-        <div class="mb-3">
+    <div class="mb-3">
+        <label for="InputEmail" class="form-label">Email address</label>
 
-        <label>Enter your email:</label>
-        <input name="j_email"/>
+        <input name="j_email" type="email" class="form-control" id="InputEmail" placeholder="example@google.com">
 
-        <br>
+    </div>
 
-        <label>Enter your password:</label>
-        <input name="j_password"/>
+    <div class="mb-3">
+        <label for="InputPassword" class="form-label">Password</label>
+        <input name="j_password" type="password" class="form-control" id="InputPassword" aria-describedby="passwordHelp" placeholder="password1234">
 
-        <br>
-        </div>
+        <div id="passwordHelp" class="form-text">Your password must be 4-20 character long.</div>
+    </div>
 
-        <button class="btn btn-primary" type="submit">Sign in</button>
+    <button type="submit" class="btn btn-primary btn-sm">Submit</button>
 
-    </form>
+</form>
 
 <a th:href="@{/registration}">
-    <button>Registration</button>
+    <button class="btn btn-outline-dark btn-sm">Registration</button>
 </a>
+
 </body>
 </html>
