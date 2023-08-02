@@ -1,8 +1,10 @@
 package com.springproject.service;
 
+import com.springproject.models.Role;
 import com.springproject.models.User;
 
 import java.util.List;
+import java.util.Set;
 
 
 public interface UserService {
@@ -17,6 +19,7 @@ public interface UserService {
 
     public User getUserByEmail(String email);
 
+    public List<Role> getRoles();
 
 
 }

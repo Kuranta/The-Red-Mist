@@ -1,11 +1,16 @@
 package com.springproject.dao;
 
+import com.springproject.models.Role;
 import com.springproject.models.User;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.PersistenceContext;
 import org.springframework.stereotype.Repository;
 
+import java.util.Collections;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
+import java.util.stream.Collectors;
 
 
 @Repository
@@ -19,7 +24,6 @@ public class UserDAOImpl implements UserDAO{
     public List<User> readAllUser() {
         return entityManager.createQuery("from User").getResultList();
     }
-
     @Override
     public void saveUser(User user) {
         entityManager.merge(user);
@@ -41,5 +45,11 @@ public class UserDAOImpl implements UserDAO{
                 .setParameter("email",email)
                 .getSingleResult();
     }
+
+    @Override
+    public List<Role> getRoles() {
+        return entityManager.createQuery("from Role").getResultList();
+    }
+
 
 }

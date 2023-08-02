@@ -32,7 +32,7 @@ public class User implements UserDetails {
     @Size(min=2, message = "Incorrect surname created")
     private String surname;
 
-    @Column
+    @Column(unique = true)
     @Size(min=2, message = "Incorrect email created")
     @Email
     private String email; //Unique parameter
@@ -41,11 +41,11 @@ public class User implements UserDetails {
     @Size(min = 4, message = "Incorrect password created")
     private String password;
 
-    @ManyToMany(fetch = FetchType.EAGER)
+    @ManyToMany(fetch = FetchType.EAGER,
+            cascade = CascadeType.ALL)
     @JoinTable(name = "usertable_roles",
-    joinColumns = @JoinColumn(name = "users_id"),
-    inverseJoinColumns = @JoinColumn(name = "roles_id"))
-
+    joinColumns = @JoinColumn(name = "user_id", referencedColumnName = "id"),
+    inverseJoinColumns = @JoinColumn(name = "role_id", referencedColumnName = "id"))
     private Set<Role> roles = new HashSet<>();
 
 
@@ -78,4 +78,5 @@ public class User implements UserDetails {
     public boolean isEnabled() {
         return true;
     }
+
 }

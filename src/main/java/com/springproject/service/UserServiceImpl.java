@@ -11,7 +11,6 @@ import org.springframework.transaction.annotation.EnableTransactionManagement;
 import org.springframework.transaction.annotation.Transactional;
 
 
-import java.util.Collections;
 import java.util.List;
 
 @Service
@@ -22,17 +21,15 @@ public class UserServiceImpl implements UserService{
     private UserDAO userDAO;
 
     @Override
-    @Transactional(readOnly = true)
+    @Transactional
     public List<User> readAllUser() {
         return userDAO.readAllUser();
     }
 
 
-    //TODO rawPassword cannot be null, IllegalArgumentException.
     @Override
     @Transactional
     public void saveUser(User user) {
-        user.setRoles(Collections.singleton(new Role(2L,"ROLE_USER")));
         user.setPassword(new BCryptPasswordEncoder().encode(user.getPassword()));
         userDAO.saveUser(user);
     }
@@ -49,10 +46,16 @@ public class UserServiceImpl implements UserService{
         return userDAO.getUserById(id);
     }
 
-
     @Override
     @Transactional
     public User getUserByEmail(String email) {
         return userDAO.getUserByEmail(email);
     }
+
+    @Override
+    @Transactional
+    public List<Role> getRoles() {
+        return userDAO.getRoles();
+    }
+
 }
