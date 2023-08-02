@@ -41,7 +41,6 @@ public class AuthController {
             model.addAttribute("user", user);
             return "register";
         }
-        userService.saveUserWithDefaultRole(user);
         return "redirect:/";
     }
 }

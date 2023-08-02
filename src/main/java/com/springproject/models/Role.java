@@ -5,12 +5,12 @@ import jakarta.persistence.*;
 import lombok.*;
 import org.springframework.security.core.GrantedAuthority;
 
+import java.util.Set;
 
 
 @Entity
 @Table(name = "roles")
-@Getter
-@Setter
+@Data
 public class Role implements GrantedAuthority{
 
     @Id

@@ -13,6 +13,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 @Configuration
 public class ApplicationConfig {
 
+    @Autowired
     private UserDetailsService userDetailService;
 
     public ApplicationConfig(@Qualifier("userDetailServiceImpl") UserDetailsService userDetailService) {
@@ -32,5 +33,6 @@ public class ApplicationConfig {
     public PasswordEncoder passwordEncoder() {
         return new BCryptPasswordEncoder();
     }
+
 
 }

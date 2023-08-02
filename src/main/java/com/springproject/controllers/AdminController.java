@@ -8,6 +8,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.HashSet;
 import java.util.List;
 
 @Controller
@@ -28,6 +29,7 @@ public class AdminController {
 
     @PostMapping("/saveUser")
     public String saveUser(User user) {
+//        user.setRoles(new HashSet<>(userService.getRoles()));
         userService.saveUser(user);
         return "redirect:/admin";
 

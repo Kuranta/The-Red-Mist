@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en"xmlns:th="http://thymeleaf.org">
+<html lang="en"xmlns:th="http://thymeleaf.org" xmlns:sec="https://www.thymeleaf.org/thymeleaf-extras-springsecurity5">
 <head>
     <meta charset="UTF-8">
     <title>People</title>
@@ -17,7 +17,8 @@
     <div class="container-fluid">
         <ul class="nav">
             <li class="nav-item">
-                <a class="nav-link active" aria-current="page" href="@{/user}">Home page</a>
+                <span class="text-danger"sec:authentication="name">Email</span>
+               <span class="text-danger"sec:authentication="principal.authorities">Roles</span>
             </li>
         </ul>
         <a th:href="@{/logout}" class="btn btn-danger">Logout.</a>
@@ -112,10 +113,15 @@
 
                     <label class="col-4 col-form-label">Roles: </label>
 
-
-                    <select multiple class="form-select" id="roles" name="roles" required>
-                        <option th:each="role : ${roleList}" th:value="${role}" th:text="${role}"></option>
-                    </select>
+                    <div class="form-group row">
+                        <label class="col-4 col-form-label">Roles: </label>
+                        <div class="col-8">
+                            <th:block th:each="role : ${roleList}">
+                                <input type="checkbox" th:field="*{roles}"
+                                       th:text="${role}" th:value="${role}" class="m-2" />
+                            </th:block>
+                        </div>
+                    </div>
 
 
                     <div class="modal-footer">
