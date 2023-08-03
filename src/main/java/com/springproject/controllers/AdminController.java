@@ -29,10 +29,8 @@ public class AdminController {
 
     @PostMapping("/saveUser")
     public String saveUser(User user) {
-//        user.setRoles(new HashSet<>(userService.getRoles()));
         userService.saveUser(user);
         return "redirect:/admin";
-
     }
 //
 //    @GetMapping("/edit/{id}")

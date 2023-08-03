@@ -31,7 +31,7 @@ public class User implements UserDetails {
     @Size(min=2, message = "Incorrect surname created")
     private String surname;
 
-    @Column
+    @Column(unique = true)
     @Size(min=2, message = "Incorrect email created")
     @Email
     private String email; //Unique parameter
@@ -40,7 +40,8 @@ public class User implements UserDetails {
     @Size(min = 4, message = "Incorrect password created")
     private String password;
 
-    @ManyToMany(fetch = FetchType.EAGER,cascade = CascadeType.MERGE)
+    @ManyToMany(fetch = FetchType.EAGER,
+    cascade = CascadeType.PERSIST)
     @JoinTable(name = "users_roles",
     joinColumns = @JoinColumn(name = "user_id"),
     inverseJoinColumns = @JoinColumn(name = "role_id"))
@@ -48,12 +49,12 @@ public class User implements UserDetails {
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
-        return roles;
+        return getRoles();
     }
 
     @Override
     public String getUsername() {
-        return email;
+        return getEmail();
     }
 
     @Override

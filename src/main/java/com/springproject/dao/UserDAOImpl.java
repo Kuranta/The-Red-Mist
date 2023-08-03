@@ -4,6 +4,7 @@ import com.springproject.models.Role;
 import com.springproject.models.User;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.PersistenceContext;
+import org.hibernate.Hibernate;
 import org.springframework.stereotype.Repository;
 
 import java.util.Collections;
@@ -47,6 +48,7 @@ public class UserDAOImpl implements UserDAO{
     }
 
     @Override
+    @SuppressWarnings("unchecked")
     public List<Role> getRoles() {
         return entityManager.createQuery("from Role").getResultList();
     }
