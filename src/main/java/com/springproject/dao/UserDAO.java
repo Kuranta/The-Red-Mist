@@ -18,6 +18,4 @@ public interface UserDAO {
 
     public User getUserByEmail(String email);
 
-    public List<Role> getRoles();
-
     }

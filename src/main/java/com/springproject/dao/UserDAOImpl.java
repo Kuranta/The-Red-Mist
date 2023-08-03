@@ -47,11 +47,4 @@ public class UserDAOImpl implements UserDAO{
                 .getSingleResult();
     }
 
-    @Override
-    @SuppressWarnings("unchecked")
-    public List<Role> getRoles() {
-        return entityManager.createQuery("from Role").getResultList();
-    }
-
-
 }

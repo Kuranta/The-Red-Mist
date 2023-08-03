@@ -22,7 +22,7 @@ public class UserServiceImpl implements UserService{
 
     @Override
     @Transactional
-    public List<User> readAllUser() {
+    public List<User> getUsers() {
         return userDAO.readAllUser();
     }
 
@@ -50,12 +50,6 @@ public class UserServiceImpl implements UserService{
     @Transactional
     public User getUserByEmail(String email) {
         return userDAO.getUserByEmail(email);
-    }
-
-    @Override
-    @Transactional
-    public List<Role> getRoles() {
-        return userDAO.getRoles();
     }
 
 }
