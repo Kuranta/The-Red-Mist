@@ -4,21 +4,29 @@ package com.springproject.service;
 import com.springproject.dao.UserDAO;
 import com.springproject.models.Role;
 import com.springproject.models.User;
+import lombok.SneakyThrows;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.EnableTransactionManagement;
 import org.springframework.transaction.annotation.Transactional;
 
 
+import java.util.Collections;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 @Service
 @EnableTransactionManagement
-public class UserServiceImpl implements UserService{
+public class UserServiceImpl implements UserService {
 
     @Autowired
     private UserDAO userDAO;
+
+    @Autowired
+    private RoleService roleService;
 
     @Override
     @Transactional
@@ -29,8 +37,12 @@ public class UserServiceImpl implements UserService{
 
     @Override
     @Transactional
+    @SneakyThrows
     public void saveUser(User user) {
-        user.setPassword(new BCryptPasswordEncoder().encode(user.getPassword()));
+        for (Role role : user.getRoles()) {
+            Role searchRole = roleService.findRole(role.getName());
+            user.setRoles(Collections.singleton(searchRole));
+        }
         userDAO.saveUser(user);
     }
 

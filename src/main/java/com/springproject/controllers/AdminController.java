@@ -36,8 +36,19 @@ public class AdminController {
     public String saveUser(User user) {
         for(Role role : user.getRoles()) {
             System.out.println("-----------------\n" + role.getName());
+            System.out.println("-----------------\n" + role.getId());
+            System.out.println(user.getId());
         }
+
         userService.saveUser(user);
+
+        for(Role role : user.getRoles()) {
+            System.out.println("-----------------\n" + role.getName());
+            System.out.println("-----------------\n" + role.getId());
+            System.out.println(user.getId());
+
+        }
+
         return "redirect:/admin";
     }
 //

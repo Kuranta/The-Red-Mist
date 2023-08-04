@@ -4,14 +4,10 @@ import jakarta.persistence.*;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.Size;
 import lombok.*;
-import org.hibernate.annotations.Cascade;
-import org.hibernate.annotations.Fetch;
-import org.hibernate.annotations.FetchMode;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
 import java.util.Collection;
-import java.util.HashSet;
 import java.util.Set;
 
 @Entity
@@ -31,7 +27,6 @@ public class User implements UserDetails {
     @Size(min=2, message = "Incorrect surname created")
     private String surname;
 
-    @Column(unique = true)
     @Size(min=2, message = "Incorrect email created")
     @Email
     private String email; //Unique parameter
@@ -40,12 +35,8 @@ public class User implements UserDetails {
     @Size(min = 4, message = "Incorrect password created")
     private String password;
 
-    @ManyToMany(fetch = FetchType.EAGER
-    ,cascade = CascadeType.MERGE)
-    @JoinTable(name = "users_roles",
-    joinColumns = @JoinColumn(name = "user_id"),
-    inverseJoinColumns = @JoinColumn(name = "role_id"))
-    private Set<Role> roles = new HashSet<>()   ;
+    @ManyToMany(fetch = FetchType.EAGER)
+    private Set<Role> roles;
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {

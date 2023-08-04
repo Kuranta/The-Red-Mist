@@ -29,12 +29,11 @@ public class SecurityConfig {
                         logout(logout -> logout
                         .logoutRequestMatcher(new AntPathRequestMatcher("/logout")).permitAll());
 
-//TODO return admin authorities only for admin
 
         http.
                         authorizeHttpRequests(authorize -> authorize
                         .requestMatchers("/registration").permitAll()
-                        .requestMatchers("/admin/**").permitAll()
+                        .requestMatchers("/admin/**").hasRole("ADMIN")
                         .requestMatchers("/user").permitAll().anyRequest().authenticated());
 
         return http.build();
