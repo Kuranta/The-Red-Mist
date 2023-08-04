@@ -39,10 +39,12 @@ public class UserServiceImpl implements UserService {
     @Transactional
     @SneakyThrows
     public void saveUser(User user) {
+        Set<Role> roles = new HashSet<>();
         for (Role role : user.getRoles()) {
             Role searchRole = roleService.findRole(role.getName());
-            user.setRoles(Collections.singleton(searchRole));
+            roles.add(searchRole);
         }
+        user.setRoles(roles);
         userDAO.saveUser(user);
     }
 
