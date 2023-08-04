@@ -40,12 +40,12 @@ public class User implements UserDetails {
     @Size(min = 4, message = "Incorrect password created")
     private String password;
 
-    @ManyToMany(fetch = FetchType.EAGER,
-    cascade = CascadeType.MERGE)
+    @ManyToMany(fetch = FetchType.EAGER
+    ,cascade = CascadeType.MERGE)
     @JoinTable(name = "users_roles",
     joinColumns = @JoinColumn(name = "user_id"),
     inverseJoinColumns = @JoinColumn(name = "role_id"))
-    private Set<Role> roles = new HashSet<>();
+    private Set<Role> roles = new HashSet<>()   ;
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
