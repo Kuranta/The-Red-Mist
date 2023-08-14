@@ -33,34 +33,21 @@ public class AdminController {
     }
 
     @PostMapping("/saveUser")
-    public String saveUser(User user) {
-        for(Role role : user.getRoles()) {
-            System.out.println("-----------------\n" + role.getName());
-            System.out.println("-----------------\n" + role.getId());
-            System.out.println(user.getId());
-        }
-
+    public String saveUser(@ModelAttribute("user") User user) {
         userService.saveUser(user);
-
-        for(Role role : user.getRoles()) {
-            System.out.println("-----------------\n" + role.getName());
-            System.out.println("-----------------\n" + role.getId());
-            System.out.println(user.getId());
-
-        }
-
         return "redirect:/admin";
     }
-//
-//    @GetMapping("/edit/{id}")
-//    public String editUser(@PathVariable("id") Long id, Model model) {
-//        User user = userService.getUserById(id);
-//        model.addAttribute("roleList",userService.getRoles());
-//        model.addAttribute("user",user);
-//        return "updateUser";
-//    }
 
-    @GetMapping("/deleteUser/{id}")
+    @GetMapping("/edit/{id}")
+    public String editUser(@PathVariable("id") Long id, Model model) {
+        User user = userService.getUserById(id);
+        model.addAttribute("user",user);
+        model.addAttribute("userList", userService.getUsers());
+        model.addAttribute("roleList",roleService.getRoles());
+        return "admin";
+    }
+
+    @PostMapping("/deleteUser/{id}")
     public String deleteUser(@PathVariable("id") Long id){
         userService.deleteUser(id);
         return "redirect:/admin";

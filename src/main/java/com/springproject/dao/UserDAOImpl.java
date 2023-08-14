@@ -5,6 +5,7 @@ import com.springproject.models.User;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.PersistenceContext;
 import org.springframework.stereotype.Repository;
+import org.springframework.web.bind.annotation.ModelAttribute;
 
 import java.util.HashSet;
 import java.util.List;
@@ -24,7 +25,7 @@ public class UserDAOImpl implements UserDAO{
     }
     @Override
     public void saveUser(User user) {
-        entityManager.persist(user);
+        entityManager.merge(user);
     }
 
     @Override

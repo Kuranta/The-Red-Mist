@@ -8,6 +8,7 @@ import lombok.SneakyThrows;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.EnableTransactionManagement;
 import org.springframework.transaction.annotation.Transactional;
@@ -45,6 +46,7 @@ public class UserServiceImpl implements UserService {
             roles.add(searchRole);
         }
         user.setRoles(roles);
+        user.setPassword(new BCryptPasswordEncoder().encode(user.getPassword()));
         userDAO.saveUser(user);
     }
 
