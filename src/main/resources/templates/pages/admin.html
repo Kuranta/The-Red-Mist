@@ -32,10 +32,8 @@
 <h1>List of Users</h1>
 <hr>
 
-
-
-
-<button type="button" class="btn btn-primary" data-toggle="modal" data-target="#userAddModal">New User</button>
+        <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#userAddModal">New User</button>
+        <div th:include="newUser.html"></div>
 
 
 <table class="table table-bordered border-dark">
@@ -58,183 +56,15 @@
         <td th:text="${user.Roles}">roles</td>
         <td>
             <button type="button" class="btn btn-primary" data-toggle="modal" th:attr="data-target=${'#userEditModal'+user.id}" data-row="${user}">Edit</button>
-
+            <div th:include="edit.html"></div>
         <td>
             <a th:href="@{admin/deleteUser/{id}(id=${user.id})}" class="btn btn-danger">Remove</a>
-        </td>
+<!--            <div th:include="delete.html"></div>-->
+
+    </td>
     </tr>
     </tbody>
 </table>
-
-<br>
-<br>
-
-<div class="modal fade" id="userAddModal" tabindex="-1" >
-    <div class="modal-dialog" role="document">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title" id="userAddModalLabel">Create user</h5>
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                    <span aria-hidden="true">&times;</span>
-                </button>
-            </div>
-            <div class="modal-body">
-
-            <form class="form" method="post" th:object="${user}" th:action="@{/admin/saveUser}">
-
-                <div class="form-group">
-                        <label class="col-form-label">Your name:</label>
-                        <input type="text" th:field="*{name}" class="form-control">
-                    </div>
-
-                <div class="form-group">
-                        <label class="col-form-label">Your surname:</label>
-                        <input type="text" th:field="*{surname}" class="form-control">
-                    </div>
-
-                <div class="form-group">
-                        <label class="col-form-label">Your email:</label>
-                        <input type="text" th:field="*{email}" class="form-control">
-                    </div>
-
-                <div class="form-group">
-                        <label class="col-form-label">Your password:</label>
-                        <input type="text" th:field="*{password}" class="form-control">
-                    </div>
-
-                    <p>
-                    <label>Roles:
-                        <input type="checkbox" name="roles"
-                               th:each="role : ${roleList}"
-                               th:text="${role.name}"
-                               th:value="${role}"
-                               th:field="*{roles}"/>
-                    </label>
-                    </p>
-
-
-                    <div class="modal-footer">
-                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                        <button type="submit" class="btn btn-success">Save user</button>
-                    </div>
-                </form>
-        </div>
-    </div>
-</div>
-</div>
-
-
-
-
-<div class="modal fade" th:each="user : ${userList}" th:attr="id=${'userEditModal' + user.id}" >
-        <div class="modal-dialog" role="document">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title" id="userEditModalLabel">Edit user</h5>
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                    <span aria-hidden="true">&times;</span>
-                </button>
-            </div>
-            <div class="modal-body">
-
-            <form action="#" class="form" method="post" th:object="${user}" th:action="@{/admin/saveUser}">
-
-                <div class="mb-3">
-                        <label class="col-form-label">Your id:</label>
-                        <input type="text" th:field="*{id}" class="form-control">
-                    </div>
-
-                    <div class="mb-3">
-                        <label class="col-form-label">Your name:</label>
-                        <input type="text" th:field="*{name}" class="form-control">
-                    </div>
-
-                    <div class="mb-3">
-                        <label class="col-form-label">Your surname:</label>
-                        <input type="text" th:field="*{surname}" class="form-control">
-                    </div>
-
-                    <div class="mb-3">
-                        <label class="col-form-label">Your email:</label>
-                        <input type="text" th:field="*{email}" class="form-control">
-                    </div>
-
-                    <div class="mb-3">
-                        <label class="col-form-label">Your password:</label>
-                        <input type="text" th:field="*{password}" class="form-control">
-                    </div>
-
-                    <p>
-                        <label>Roles:
-                            <input type="checkbox" name="roles"
-                                   th:each="role : ${roleList}"
-                                   th:text="${role.name}"
-                                   th:value="${role}"
-                                   th:field="*{roles}"/>
-                        </label>
-                    </p>
-
-                    <div class="modal-footer">
-                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                        <button type="submit" class="btn btn-success">Update user</button>
-                    </div>
-            </form>
-        </div>
-    </div>
-</div>
-</div>
-</div>
-
-
-
-
-
-<div class="modal fade" th:each="user : ${userList}" th:attr="id=${'userDeleteModal' + user.id}" >
-    <div class="modal-dialog" role="document">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title" id="userDeleteModalLabel">Delete user</h5>
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                    <span aria-hidden="true">&times;</span>
-                </button>
-            </div>
-            <div class="modal-body">
-
-                <form action="#" class="form" method="post" th:object="${user}" th:action="@{/admin/deleteUser/{id}}">
-
-                    <div class="mb-3">
-                        <label class="col-form-label">Your id:</label>
-                        <input type="text" th:field="*{id}" class="form-control" disabled="disabled">
-                    </div>
-
-                    <div class="mb-3">
-                        <label class="col-form-label">Your name:</label>
-                        <input type="text" th:field="*{name}" class="form-control" disabled="disabled">
-                    </div>
-
-                    <div class="mb-3">
-                        <label class="col-form-label">Your surname:</label>
-                        <input type="text" th:field="*{surname}" class="form-control" disabled="disabled">
-                    </div>
-
-                    <div class="mb-3">
-                        <label class="col-form-label">Your email:</label>
-                        <input type="text" th:field="*{email}" class="form-control" disabled="disabled">
-                    </div>
-
-                    <div class="modal-footer">
-                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                        <button type="submit" class="btn btn-primary" th:href="@{admin/deleteUser/{id}(id=${user.id})}" th:method="post">Remove</button>
-                    </div>
-                </form>
-            </div>
-        </div>
-    </div>
-</div>
-</div>
-
-
-
 
 
 <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>

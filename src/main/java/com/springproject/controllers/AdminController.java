@@ -33,7 +33,7 @@ public class AdminController {
     }
 
     @PostMapping("/saveUser")
-    public String saveUser(@ModelAttribute("user") User user) {
+    public String saveUser(@ModelAttribute User user) {
         userService.saveUser(user);
         return "redirect:/admin";
     }
@@ -44,7 +44,7 @@ public class AdminController {
         model.addAttribute("user",user);
         model.addAttribute("userList", userService.getUsers());
         model.addAttribute("roleList",roleService.getRoles());
-        return "admin";
+        return "redirect:/admin";
     }
 
     @PostMapping("/deleteUser/{id}")
