@@ -55,11 +55,9 @@
         <td th:text="${user.Email}">email</td>
         <td th:text="${user.Roles}">roles</td>
         <td>
-            <button type="button" class="btn btn-primary" data-toggle="modal" th:attr="data-target=${'#userEditModal'+user.id}" data-row="${user}">Edit</button>
-            <div th:include="edit.html"></div>
+            <a th:action="@{admin/edit/{id}(id=${user.id})}" class="btn btn-primary">Edit</a>
         <td>
             <a th:href="@{admin/deleteUser/{id}(id=${user.id})}" class="btn btn-danger">Remove</a>
-<!--            <div th:include="delete.html"></div>-->
 
     </td>
     </tr>

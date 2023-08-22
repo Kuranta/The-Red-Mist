@@ -42,10 +42,10 @@ public class AdminController {
     public String editUser(@PathVariable("id") Long id, Model model) {
         User user = userService.getUserById(id);
         model.addAttribute("user",user);
-        model.addAttribute("userList", userService.getUsers());
         model.addAttribute("roleList",roleService.getRoles());
-        return "redirect:/admin";
+        return "edit";
     }
+
 
     @PostMapping("/deleteUser/{id}")
     public String deleteUser(@PathVariable("id") Long id){
