@@ -19,13 +19,17 @@ public class User implements UserDetails {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column
-    @Size(min=2, message = "Incorrect name created")
-    private String name;
+    @Column(name = "firstName")
+    @Size(min=2, message = "Incorrect FirstName created")
+    private String firstName;
+
+    @Column(name = "lastName")
+    @Size(min=2, message = "Incorrect LastName created")
+    private String lastName;
 
     @Column
-    @Size(min=2, message = "Incorrect surname created")
-    private String surname;
+    @Size(min=1, message = "Incorrect age created")
+    private int age;
 
     @Size(min=2, message = "Incorrect email created")
     @Email

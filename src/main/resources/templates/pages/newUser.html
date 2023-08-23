@@ -12,22 +12,27 @@
         <form class="form" method="post" th:object="${user}" th:action="@{/admin/saveUser}">
 
           <div class="form-group">
-            <label class="col-form-label">Your name:</label>
-            <input type="text" th:field="*{name}" class="form-control">
+            <label class="col-form-label">First name:</label>
+            <input type="text" th:field="*{firstName}" class="form-control">
           </div>
 
           <div class="form-group">
-            <label class="col-form-label">Your surname:</label>
-            <input type="text" th:field="*{surname}" class="form-control">
+            <label class="col-form-label">Last name:</label>
+            <input type="text" th:field="*{lastName}" class="form-control">
           </div>
 
           <div class="form-group">
-            <label class="col-form-label">Your email:</label>
+            <label class="col-form-label">Email:</label>
             <input type="text" th:field="*{email}" class="form-control">
           </div>
 
           <div class="form-group">
-            <label class="col-form-label">Your password:</label>
+            <label class="col-form-label">Age:</label>
+            <input type="text" th:field="*{age}" class="form-control">
+          </div>
+
+          <div class="form-group">
+            <label class="col-form-label">Password:</label>
             <input type="text" th:field="*{password}" class="form-control">
           </div>
 

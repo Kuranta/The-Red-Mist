@@ -30,7 +30,7 @@
 <body>
 
 <div class="navmenu navmenu-default navmenu-fixed-left offcanvas in canvas-slid">
-    <a class="navmenu-brand" th:href="@{/admin}" >ADMIN</a>
+    <a class="navmenu-brand" th:href="@{/admin}">ADMIN</a>
     <br>
     <a class="navmenu-brand" th:href="@{/user}">USER</a>
 </div>
@@ -52,8 +52,9 @@
 
 <table class="table table-striped">
     <thead>
-        <th>Name</th>
-        <th>Surname</th>
+        <th>FirstName</th>
+        <th>LastName</th>
+        <th>Age</th>
         <th>Email</th>
         <th>Role</th>
         <th>Edit</th>
@@ -63,16 +64,17 @@
     <tbody>
 
     <tr th:each="user : ${userList}">
-        <td th:text="${user.Name}">user</td>
-        <td th:text="${user.Surname}">surname</td>
-        <td th:text="${user.Email}">email</td>
-        <td th:text="${user.Roles}">roles</td>
+        <td th:text="${user.getFirstName()}">name</td>
+        <td th:text="${user.getLastName()}">surname</td>
+        <td th:text="${user.getAge()}">age</td>
+        <td th:text="${user.getEmail()}">email</td>
+        <td th:text="${user.getRoles()}">roles</td>
         <td>
-            <a data-toggle="modal" action="#" th:action="@{admin/edit/{id}(id=${user.id})}" class="btn btn-primary">Edit</a>
+            <a data-toggle="modal" action="#" th:action="@{admin/edit/{id}(id=${user.getId()})}" class="btn btn-primary">Edit</a>
             <div th:include="edit.html"></div>
 
         <td>
-            <a th:href="@{admin/deleteUser/{id}(id=${user.id})}" class="btn btn-danger">Remove</a>
+            <a th:href="@{admin/deleteUser/{id}(id=${user.getId()})}" class="btn btn-danger">Remove</a>
 
     </td>
     </tr>
