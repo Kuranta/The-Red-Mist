@@ -19,7 +19,7 @@ public class SecurityConfig {
 
         http.csrf(csrf -> csrf.disable());
 
-        http.formLogin(fl -> fl.loginPage("/login").loginProcessingUrl("/login")
+        http.formLogin(fl -> fl.loginProcessingUrl("/login")
                         .usernameParameter("j_email")
                         .passwordParameter("j_password")
                                 .successHandler(new LoginSuccessHandler())
@@ -32,9 +32,8 @@ public class SecurityConfig {
 
         http.
                         authorizeHttpRequests(authorize -> authorize
-                        .requestMatchers("/registration").permitAll()
-                        .requestMatchers("/admin/**").hasRole("ADMIN")
-                        .requestMatchers("/user").permitAll().anyRequest().authenticated());
+                                .requestMatchers("/admin/**").hasRole("ADMIN")
+                                .requestMatchers("/user").permitAll().anyRequest().authenticated());
 
         return http.build();
     }

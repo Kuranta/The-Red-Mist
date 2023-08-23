@@ -1,58 +1,63 @@
-<div class="modal fade" id="editModal">
-    <div class="modal-dialog" role="document">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title" id="userEditModalLabel">Update user</h5>
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                    <span aria-hidden="true">&times;</span>
-                </button>
-            </div>
-            <div class="modal-body">
-
-                <form action="#" class="form" method="post" th:object="${user}" th:action="@{admin/saveUser}">
-
-                    <div class="mb-3">
-                        <label class="col-form-label">Your id:</label>
-                        <input type="text" th:field="*{id}" class="form-control">
+<div class="editForm">
+    <form th:action="@{/admin/saveUser}" th:method="POST" >
+        <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog"
+             aria-labelledby="exampleModalLabel"
+             aria-hidden="true">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="exampleModalLabel">Update</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
                     </div>
+                    <div class="modal-body">
+                        <div class="form-group w-50 text-center">
+                            <label for="id" class="col-form-label">ID</label>
+                            <input type="text" class="form-control " id="id" name="id" value=""
+                                   readonly/>
+                        </div>
 
-                    <div class="mb-3">
-                        <label class="col-form-label">Your name:</label>
-                        <input type="text" th:field="*{name}" class="form-control">
+                        <div class="form-group w-50 text-center">
+                            <label for="name" class="col-form-label">First name:</label>
+                            <input type="text" class="form-control" id="name" name="name"
+                                   value=""/>
+                        </div>
+                        <div class="form-group w-50 text-center">
+                            <label for="surname" class="col-form-label">Last name:</label>
+                            <input type="text" class="form-control" id="surname" name="surname"
+                                   value=""/>
+                        </div>
+
+                        <div class="form-group w-50 text-center">
+                            <label for="email" class="col-form-label">Email:</label>
+                            <input type="email" class="form-control" id="email" name="email"
+                                   value="" th:value="*{user.email}"/>
+                        </div>
+                        <div class="form-group w-50 text-center">
+                            <label for="password" class="col-form-label">Password:</label>
+                            <input type="password" class="form-control" id="password" name="password"
+                                   value=""/>
+                        </div>
+                        <p>
+                            <label>Roles:
+                                <input type="checkbox" name="roles"
+                                       th:each="role : ${roleList}"
+                                       th:text="${role.name}"
+                                       th:value="${role}"
+                                       th:field="*{user.roles}"/>
+                            </label>
+                        </p>
+
                     </div>
-
-                    <div class="mb-3">
-                        <label class="col-form-label">Your surname:</label>
-                        <input type="text" th:field="*{surname}" class="form-control">
-                    </div>
-
-                    <div class="mb-3">
-                        <label class="col-form-label">Your email:</label>
-                        <input type="text" th:field="*{email}" class="form-control">
-                    </div>
-
-                    <div class="mb-3">
-                        <label class="col-form-label">Your password:</label>
-                        <input type="text" th:field="*{password}" class="form-control">
-                    </div>
-
-                    <p>
-                        <label>Roles:
-                            <input type="checkbox" name="roles"
-                                   th:each="role : ${roleList}"
-                                   th:text="${role.name}"
-                                   th:value="${role}"
-                                   th:field="*{roles}"/>
-                        </label>
-                    </p>
-
                     <div class="modal-footer">
-                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                        <button type="submit" class="btn btn-success" >Update user</button>
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">
+                            Close
+                        </button>
+                        <input type="submit" class="btn btn-primary" value="Edit"/>
                     </div>
-                </form>
+                </div>
             </div>
         </div>
-    </div>
-</div>
+    </form>
 </div>

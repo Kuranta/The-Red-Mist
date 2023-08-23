@@ -13,32 +13,45 @@
     </div>
 </div>
 
+
 <nav class="navbar navbar-dark bg-dark">
     <div class="container-fluid">
         <ul class="nav">
             <li class="nav-item">
-                <span class="text-danger"sec:authentication="name">Email</span>
-               <span class="text-danger"sec:authentication="principal.authorities">Roles</span>
+                <span class="text-light" sec:authentication="name">Email</span>
+               <span class="text-light" sec:authentication="principal.authorities">Roles</span>
             </li>
         </ul>
-        <a th:href="@{/logout}" class="btn btn-danger">Logout.</a>
+        <a th:href="@{/logout}" class="text-secondary">Logout.</a>
     </div>
 </nav>
 
+
 <body>
+
+<div class="navmenu navmenu-default navmenu-fixed-left offcanvas in canvas-slid">
+    <a class="navmenu-brand" th:href="@{/admin}" >ADMIN</a>
+    <br>
+    <a class="navmenu-brand" th:href="@{/user}">USER</a>
+</div>
 
 
 <div class="container my-2 "/>
-<h1>List of Users</h1>
+<h1>Admin pannel</h1>
 <hr>
 
-        <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#userAddModal">New User</button>
+<ul class="nav nav-tabs">
+    <li class="nav-item">
+        <a class="nav-link" href="#">Users table</a>
+    </li>
+    <li class="nav-item">
+        <a class="nav-link" href="#new" data-toggle="modal" data-target="#userAddModal">New User</a>
         <div th:include="newUser.html"></div>
+    </li>
+</ul>
 
-
-<table class="table table-bordered border-dark">
+<table class="table table-striped">
     <thead>
-    <tr class="table-dark">
         <th>Name</th>
         <th>Surname</th>
         <th>Email</th>
@@ -55,7 +68,9 @@
         <td th:text="${user.Email}">email</td>
         <td th:text="${user.Roles}">roles</td>
         <td>
-            <a th:action="@{admin/edit/{id}(id=${user.id})}" class="btn btn-primary">Edit</a>
+            <a data-toggle="modal" action="#" th:action="@{admin/edit/{id}(id=${user.id})}" class="btn btn-primary">Edit</a>
+            <div th:include="edit.html"></div>
+
         <td>
             <a th:href="@{admin/deleteUser/{id}(id=${user.id})}" class="btn btn-danger">Remove</a>
 
