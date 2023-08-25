@@ -1,15 +1,11 @@
 package com.springproject.dao;
 
-import com.springproject.models.Role;
 import com.springproject.models.User;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.PersistenceContext;
 import org.springframework.stereotype.Repository;
-import org.springframework.web.bind.annotation.ModelAttribute;
 
-import java.util.HashSet;
 import java.util.List;
-import java.util.Set;
 
 
 @Repository

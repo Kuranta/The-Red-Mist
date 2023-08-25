@@ -1,9 +1,7 @@
 package com.springproject.dao;
 
 import java.util.List;
-import java.util.Set;
 
-import com.springproject.models.Role;
 import com.springproject.models.User;
 
 public interface UserDAO {

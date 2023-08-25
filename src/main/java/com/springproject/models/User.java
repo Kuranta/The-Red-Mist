@@ -28,8 +28,7 @@ public class User implements UserDetails {
     private String lastName;
 
     @Column
-    @Size(min=1, message = "Incorrect age created")
-    private int age;
+    private Integer age;
 
     @Size(min=2, message = "Incorrect email created")
     @Email

@@ -1,6 +1,5 @@
 package com.springproject.controllers;
 
-import com.springproject.models.Role;
 import com.springproject.models.User;
 import com.springproject.service.RoleService;
 import com.springproject.service.UserService;
@@ -8,10 +7,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
-
-import java.util.Collections;
-import java.util.HashSet;
-import java.util.Set;
 
 @Controller
 @RequestMapping(value = "/admin")
