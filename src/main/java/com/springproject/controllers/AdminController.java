@@ -36,7 +36,7 @@ public class AdminController {
     }
 
     @GetMapping("/edit/{id}")
-    public User editUser(@RequestParam Long id) {
+    public User editUser(@PathVariable Long id) {
         return userService.getUserById(id);
     }
 //

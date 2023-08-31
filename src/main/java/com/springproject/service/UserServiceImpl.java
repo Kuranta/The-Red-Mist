@@ -45,6 +45,7 @@ public class UserServiceImpl implements UserService {
             Role searchRole = roleService.findRole(role.getName());
             roles.add(searchRole);
         }
+//        user.setRoles(Collections.singleton(new Role(1l,"ROLE_ADMIN")));
         user.setRoles(roles);
         user.setPassword(new BCryptPasswordEncoder().encode(user.getPassword()));
         userDAO.saveUser(user);

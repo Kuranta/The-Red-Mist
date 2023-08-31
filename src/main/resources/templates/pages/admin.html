@@ -3,19 +3,13 @@
 <head>
     <meta charset="UTF-8">
     <title>People</title>
-    <!-- Bootstrap CSS -->
-    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css"
-          integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
-    <!-- Bootstrap core CSS -->
-    <link href="/css/bootstrap.min.css" rel="stylesheet"
-          integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
+
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
 
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.0.0/jquery.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validate/1.19.2/jquery.validate.min.js"></script>
 
-    <!-- jQuery Modal -->
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-modal/0.9.1/jquery.modal.min.js"></script>
-    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"></script>
+
 </head>
 
 <div class="collapse" id="navbarToggleExternalContent" >
@@ -25,7 +19,7 @@
     </div>
 </div>
 
-
+<!--NAV BAR-->
 <nav class="navbar navbar-dark bg-dark">
     <div class="container-fluid">
         <ul class="nav">
@@ -40,17 +34,19 @@
 
 
 <body>
-
+<!--LEFT SELECTER-->
 <div class="navmenu navmenu-default navmenu-fixed-left offcanvas in canvas-slid">
     <a class="navmenu-brand" th:href="@{/admin}">ADMIN</a>
     <br>
     <a class="navmenu-brand" th:href="@{/user}">USER</a>
 </div>
 
+<!--OTHER PAGES-->
+<div th:include="edit.html"></div>
+<div th:include="newUser.html"></div>
 
 
-
-
+<!--ADMIN PANNEL-->
 <div class="container my-2 "/>
 <h1>Admin pannel</h1>
 <hr>
@@ -61,10 +57,10 @@
     </li>
     <li class="nav-item">
         <a class="nav-link" href="#new" data-toggle="modal" data-target="#userAddModal">New User</a>
-        <div th:include="newUser.html"></div>
     </li>
 </ul>
 
+<!--TABLE-->
 <table class="table table-striped" id="userTable">
     <thead>
         <th>FirstName</th>
@@ -76,7 +72,7 @@
         <th>Delete</th>
     </tr>
     </thead>
-    <tbody>
+    <tbody id="tData">
 
     </tbody>
 </table>
@@ -84,46 +80,132 @@
 
 
 <script>
-        console.log("Hello from Jokerge 1984");
+    function getUsers(){
+            fetch("http://localhost:8080/api/getUsers").then(
+                (res)=>res.json()).then((response)=>{
+                    var tempData = '';
+                    console.log(response);
+                response.forEach((user)=>{
+                    var userRole = "";
+                    user.roles.forEach(function (role) {
+                        userRole += role.name + " ";
+                    })
+                        tempData += "<tr>";
+                        tempData += "<td>" + user.firstName + "</td>";
+                        tempData += "<td>" + user.lastName + "</td>";
+                        tempData += "<td>" + user.age + "</td>";
+                        tempData += "<td>" + user.email + "</td>";
+                        tempData += "<td>" + userRole + "</td>";
+                        tempData += "<td>" + "<a class='btn btn-success edit-button'>Edit" + "</td>";
+                        tempData +=  "<td>" + "<a class='btn btn-danger delete-button'>Delete" + "</td>";
+                        tempData += "</tr>";
+                    })
+                document.getElementById("tData").innerHTML = tempData;
+                })
+        }
+        getUsers();
+
+    //DON'T KNOW HOW TO SAVE USER ROLES AND REDIRECT TO LIST OF USERS, BUT FUNCTION IS WORKING.
+    //FOR THE SECOND ADDING, FORM KEEPS OLD VARIABLES.
+        function addUser(){
+            let payload ={};
+            payload['firstName'] = document.getElementById("firstName").value;
+            payload['lastName'] = document.getElementById("lastName").value;
+            payload['age'] = document.getElementById("age").value;
+            payload['email'] = document.getElementById("email").value;
+            payload['password'] = document.getElementById("password").value;
+            payload['roles'] = document.getElementById("roles").value;
+
+            fetch("http://localhost:8080/api/saveUser",{
+                method: "POST",
+                headers:{
+                    "Content-Type":"application/json"
+                },
+                body:JSON.stringify(payload)
+            })
+        }
 
 
-        $.get("/api/getUsers", function(data) {
-            var $userTableBody = $("#userTable tbody");
 
-            $userTableBody.empty();
-            data.forEach(function(user) {
-                var userRole = "";
-                user.roles.forEach(function (role){
-                    userRole += role.name + " ";
-                });
-                var row = "<tr>" +
-                     "<td>" + user.firstName + "</td>" +
-                    "<td>" + user.lastName + "</td>" +
-                    "<td>" + user.age + "</td>" +
-                    "<td>" + user.email + "</td>" +
-                    "<td>" + userRole + "</td>" +
-                    "<td>" + "<a class='btn btn-success edit-button' data-toggle='modal' data-target='#editModal' >Edit" + "</td>" +
-                    "<td>" + "<a class='btn btn-warning'>Delete" + "</td>" +
-                    "</tr>";
-                $userTableBody.append(row);
-            });
-        });
 
-        $(".table .edit-button").on("click", function (event){
-            $().modal();
-            console.log("second jokerge")
 
-            var userId = $(this).data("userid")
-            $.get("/api/edit/" + userId, function (user){
-                $('#id').val(user.id);
-                $('#firstName').val(user.firstName);
-                $('#lastName').val(user.lastName);
-                $('#age').val(user.age);
-                $('#email').val(user.email);
-                $('#password').val(user.password);
-                $('#editModal').modal();
-            });
-        });
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+        // $.get("/api/getUsers", function(data) {
+        //     var $userTableBody = $("#userTable tbody");
+        //
+        //     $userTableBody.empty();
+        //     data.forEach(function(user) {
+        //         var userRole = "";
+        //         user.roles.forEach(function (role){
+        //             userRole += role.name + " ";
+        //         });
+        //         var row = "<tr>" +
+        //              "<td>" + user.firstName + "</td>" +
+        //             "<td>" + user.lastName + "</td>" +
+        //             "<td>" + user.age + "</td>" +
+        //             "<td>" + user.email + "</td>" +
+        //             "<td>" + userRole + "</td>" +
+        //             "<td>" + "<a class='btn btn-success edit-button' th:href='api/user'>Edit" + "</td>" +
+        //             "<td>" + "<a class='btn btn-warning'>Delete" + "</td>" +
+        //             "</tr>";
+        //         $userTableBody.append(row);
+        //     });
+        // });
+        //
+        // //EDIT BUTTON
+        // $('#editModal').on('show.bs.modal', function (event, e){
+        //    console.log('heh');
+        //     let btn = $(e.relatedTarget);
+        //     let id = btn.data('id');
+        //     console.log(id);
+        //         // $.get("/api/edit/" + id, function (user){
+        //         //     $('#id').val(user.id);
+        //         //     $('#firstName').val(user.firstName);
+        //         //     $('#lastName').val(user.lastName);
+        //         //     $('#age').val(user.age);
+        //         //     $('#email').val(user.email);
+        //         //     $('#password').val(user.password);
+        //         //     $('#roles').val(user.role.name);
+        //         // });
+        // });
 
 
 </script>
