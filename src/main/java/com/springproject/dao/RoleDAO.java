@@ -8,5 +8,5 @@ public interface RoleDAO {
 
     public List<Role> getRoles();
 
-    public Role findRole(String name);
+    public Role findRole(String roleName);
 }

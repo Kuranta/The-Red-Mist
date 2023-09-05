@@ -12,6 +12,7 @@
 
 </head>
 
+
 <div class="collapse" id="navbarToggleExternalContent" >
     <div class="bg-dark p-4">
         <h5 class="text-white h4">Collapsed content</h5>
@@ -35,48 +36,100 @@
 
 <body>
 <!--LEFT SELECTER-->
-<div class="navmenu navmenu-default navmenu-fixed-left offcanvas in canvas-slid">
-    <a class="navmenu-brand" th:href="@{/admin}">ADMIN</a>
-    <br>
-    <a class="navmenu-brand" th:href="@{/user}">USER</a>
-</div>
+<!--<div class="navmenu navmenu-default navmenu-fixed-left offcanvas in canvas-slid">-->
+<!--    <a class="navmenu-brand" th:href="@{/admin}">ADMIN</a>-->
+<!--    <br>-->
+<!--    <a class="navmenu-brand" th:href="@{/user}">USER</a>-->
+<!--</div>-->
 
 <!--OTHER PAGES-->
 <div th:include="edit.html"></div>
-<div th:include="newUser.html"></div>
+<!--<div th:include="newUser.html"></div>-->
+<div th:include="delete.html"></div>
 
 
 <!--ADMIN PANNEL-->
+<br>
 <div class="container my-2 "/>
 <h1>Admin pannel</h1>
-<hr>
+<br>
 
-<ul class="nav nav-tabs">
-    <li class="nav-item">
-        <a class="nav-link" href="#">Users table</a>
-    </li>
-    <li class="nav-item">
-        <a class="nav-link" href="#new" data-toggle="modal" data-target="#userAddModal">New User</a>
-    </li>
-</ul>
+<nav>
+    <div class="nav nav-tabs" id="nav-tab" role="tablist">
+        <a class="nav-item nav-link active" id="nav-home-tab" data-toggle="tab" href="#nav-home" role="tab" aria-controls="nav-home" aria-selected="true">Users table</a>
 
+        <a class="nav-item nav-link" id="nav-profile-tab" data-toggle="tab" href="#nav-profile" role="tab" aria-controls="nav-profile" aria-selected="false">New User</a>
+    </div>
+</nav>
 <!--TABLE-->
-<table class="table table-striped" id="userTable">
-    <thead>
-        <th>FirstName</th>
-        <th>LastName</th>
-        <th>Age</th>
-        <th>Email</th>
-        <th>Role</th>
-        <th>Edit</th>
-        <th>Delete</th>
-    </tr>
-    </thead>
-    <tbody id="tData">
 
-    </tbody>
-</table>
+<div class="tab-content" id="nav-tabContent">
+    <div class="tab-pane fade show active" id="nav-home" role="tabpanel" aria-labelledby="nav-home-tab">
+        <div id="userTable">
+            <table class="table table-striped">
+                <div class="p-1  bg-light text-dark">
+                <h4>All Users</h4>
+                 </div>
+                <thead>
 
+                <th>FirstName</th>
+                <th>LastName</th>
+                <th>Age</th>
+                <th>Email</th>
+                <th>Role</th>
+                <th>Edit</th>
+                <th>Delete</th>
+                </tr>
+                </thead>
+                <tbody id="tData">
+
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+    <div class="tab-pane fade" id="nav-profile" role="tabpanel" aria-labelledby="nav-profile-tab">
+        <div id="addUser" tabindex="-1">
+                <div class="d-flex justify-content-center">
+                    <form class="form" method="post" th:object="${user}" th:action="@{/api/saveUser}">
+                    <div class="mb-3">
+                        <label class="col-form-label">FirstName:</label>
+                        <input type="text" class="form-control" id="firstName" name="firstName">
+                    </div>
+                    <div class="mb-3">
+                        <label class="col-form-label">LastName:</label>
+                        <input type="text" class="form-control" id="lastName" name="lastName">
+                    </div>
+                    <div class="mb-3">
+                        <label class="col-form-label">Age:</label>
+                        <input type="number" class="form-control" id="age" name="age">
+                    </div>
+                    <div class="mb-3">
+                        <label class="col-form-label">Email:</label>
+                        <input type="text" class="form-control" id="email" name="email">
+                    </div>
+                    <div class="mb-3">
+                        <label class="col-form-label">Password:</label>
+                        <input type="password" class="form-control" id="password" name="password">
+                    </div>
+                    <div class="mb-3">
+                        <label for="roles" class="col-form-label">Role</label>
+                        <select multiple class="form-control" id="roles" name="roles" size="2">
+                            <option th:each="role: ${roleList}"
+                                    th:text="${role.getName()}"
+                                    th:value="${role}"
+                                    th:field="${user.roles}">
+                            </option>
+                        </select>
+                    </div>
+                        <div class="text-center">
+                        <button type="submit" class="btn btn-success btn-lg" onclick="addUser()">Add new user</button>
+                        </div>
+                    </form>
+                </div>
+        </div>
+    </div>
+</div>
 
 
 <script>
@@ -96,8 +149,8 @@
                         tempData += "<td>" + user.age + "</td>";
                         tempData += "<td>" + user.email + "</td>";
                         tempData += "<td>" + userRole + "</td>";
-                        tempData += "<td>" + "<a class='btn btn-success edit-button'>Edit" + "</td>";
-                        tempData +=  "<td>" + "<a class='btn btn-danger delete-button'>Delete" + "</td>";
+                        tempData += "<td>" + "<a href='#editModal' data-toggle='modal' data-target='#editModal' class='btn btn-success edit-button'>Edit" + "</td>";
+                        tempData +=  "<td>" + "<a class='btn btn-danger delete-button '>Delete" + "</td>";
                         tempData += "</tr>";
                     })
                 document.getElementById("tData").innerHTML = tempData;
@@ -105,16 +158,23 @@
         }
         getUsers();
 
-    //DON'T KNOW HOW TO SAVE USER ROLES AND REDIRECT TO LIST OF USERS, BUT FUNCTION IS WORKING.
+
+        function removeTable(){
+            document.getElementById('userTable').innerHTML = '';
+            console.log("heh")
+        }
+
+    //DON'T KNOW HOW TO SAVE USER ROLES AND REDIRECT TO LIST OF USERS, BUT FUNCTION IS WORKING. FIXED!!!
     //FOR THE SECOND ADDING, FORM KEEPS OLD VARIABLES.
         function addUser(){
-            let payload ={};
-            payload['firstName'] = document.getElementById("firstName").value;
-            payload['lastName'] = document.getElementById("lastName").value;
-            payload['age'] = document.getElementById("age").value;
-            payload['email'] = document.getElementById("email").value;
-            payload['password'] = document.getElementById("password").value;
-            payload['roles'] = document.getElementById("roles").value;
+            let payload = {
+                firstName: document.getElementById("firstName").value,
+                lastName: document.getElementById("lastName").value,
+                age: document.getElementById("age").value,
+                email: document.getElementById("email").value,
+                password: document.getElementById("password").value,
+                roles: Array.from(document.getElementById("roles").selectedOptions).map(option => option.value)
+            }
 
             fetch("http://localhost:8080/api/saveUser",{
                 method: "POST",
@@ -125,6 +185,18 @@
             })
         }
 
+    //clean form if close it
+
+    $('#addModal').on('hidden.bs.modal', function () {
+        $(this).find('form').trigger('reset');
+    })
+
+
+    function deleteUser(id){
+        fetch("http://localhost:8080/api/deleteUser/" + id).then((res) => res.json()).then((response) =>{
+
+        })
+    }
 
 
 
@@ -168,28 +240,8 @@
 
 
 
-        // $.get("/api/getUsers", function(data) {
-        //     var $userTableBody = $("#userTable tbody");
-        //
-        //     $userTableBody.empty();
-        //     data.forEach(function(user) {
-        //         var userRole = "";
-        //         user.roles.forEach(function (role){
-        //             userRole += role.name + " ";
-        //         });
-        //         var row = "<tr>" +
-        //              "<td>" + user.firstName + "</td>" +
-        //             "<td>" + user.lastName + "</td>" +
-        //             "<td>" + user.age + "</td>" +
-        //             "<td>" + user.email + "</td>" +
-        //             "<td>" + userRole + "</td>" +
-        //             "<td>" + "<a class='btn btn-success edit-button' th:href='api/user'>Edit" + "</td>" +
-        //             "<td>" + "<a class='btn btn-warning'>Delete" + "</td>" +
-        //             "</tr>";
-        //         $userTableBody.append(row);
-        //     });
-        // });
-        //
+
+
         // //EDIT BUTTON
         // $('#editModal').on('show.bs.modal', function (event, e){
         //    console.log('heh');

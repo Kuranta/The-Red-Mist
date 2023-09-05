@@ -1,15 +1,5 @@
-<div class="modal fade" id="userAddModal" tabindex="-1" >
-  <div class="modal-dialog" role="document">
-    <div class="modal-content">
-      <div class="modal-header">
-        <h5 class="modal-title" id="userAddModalLabel">Create user</h5>
-        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-          <span aria-hidden="true">&times;</span>
-        </button>
-      </div>
-      <div class="modal-body">
-
-        <form class="form" method="post" th:object="${user}" th:action="@{/api/saveUser}">
+<div id="addUser" tabindex="-1" >
+  <form class="form" method="post" th:object="${user}" th:action="@{/api/saveUser}">
 
           <div class="mb-3">
             <label class="col-form-label">FirstName:</label>
@@ -38,20 +28,14 @@
 
           <div class="mb-3">
             <label for="roles" class="col-form-label">Role</label>
-            <select id="roles" name="roles" class="form-control">
-              <option th:each="roles: ${roleList}"
-                      th:value="${roles.getId()}"
-                      th:text="${roles.getName()}">
-              </option>
+            <select multiple class="form-control" id="roles" name="roles" size="2">
+              <option th:each="role: ${roleList}"
+                      th:text="${role.getName()}"
+                      th:value="${role}"
+                      th:field="${user.roles}">
             </select>
           </div>
 
-          <div class="modal-footer">
-            <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-            <button type="submit" class="btn btn-success" onclick="addUser()">Create user</button>
-          </div>
-        </form>
-      </div>
-    </div>
-  </div>
+            <button type="submit" class="btn success btn-lg" onclick="addUser()">Add new user</button>
+  </form>
 </div>

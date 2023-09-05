@@ -3,7 +3,11 @@ package com.springproject.controllers;
 import com.springproject.models.User;
 import com.springproject.service.RoleService;
 import com.springproject.service.UserService;
+import jakarta.servlet.http.HttpServletResponse;
+import lombok.SneakyThrows;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
@@ -30,19 +34,20 @@ public class AdminController {
 
 
     @PostMapping("/saveUser")
-    public String saveUser(@ModelAttribute User user) {
+    @SneakyThrows
+    public void saveUser(@ModelAttribute User user, HttpServletResponse response) {
         userService.saveUser(user);
-        return "{\"status\":\"success\"}";
+        response.sendRedirect("http://localhost:8080/admin");
     }
 
     @GetMapping("/edit/{id}")
     public User editUser(@PathVariable Long id) {
         return userService.getUserById(id);
     }
-//
-//
-//    @PostMapping("/deleteUser/{id}")
-//    public void deleteUser(@PathVariable("id") Long id){
-//        userService.deleteUser(id);
-//    }
+
+
+    @PostMapping("/deleteUser/{id}")
+    public void deleteUser(@PathVariable("id") Long id){
+        userService.deleteUser(id);
+    }
 }
