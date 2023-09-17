@@ -1,49 +1,54 @@
-<div class="modal fade" id="userDeleteModal" tabindex="-1" >
+<div class="modal fade" id="deleteModal" tabindex="-1" >
   <div class="modal-dialog" role="document">
     <div class="modal-content">
       <div class="modal-header">
-        <h5 class="modal-title" id="userDeleteModalLabel">Create user</h5>
+        <h5 class="modal-title" id="userDeleteModalLabel">Delete user</h5>
         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
           <span aria-hidden="true">&times;</span>
         </button>
       </div>
       <div class="modal-body">
 
-        <form class="form" method="post" th:object="${user}" th:action="@{/api/deleteUser/{id}(id=${user.id})}">
+        <form class="form" method="post" onsubmit="deleteUser()">
+
+          <div class="mb-3">
+            <label class="col-form-label">ID:</label>
+            <input type="text" class="form-control" id="id1" name="id1" readonly>
+          </div>
 
           <div class="mb-3">
             <label class="col-form-label">FirstName:</label>
-            <input type="text" class="form-control" id="firstName" name="firstName" readonly>
+            <input type="text" class="form-control" id="firstName1" name="firstName1" readonly>
           </div>
 
           <div class="mb-3">
             <label class="col-form-label">LastName:</label>
-            <input type="text" class="form-control" id="lastName" name="lastName" readonly>
+            <input type="text" class="form-control" id="lastName1" name="lastName1" readonly>
           </div>
 
           <div class="mb-3">
             <label class="col-form-label">Age:</label>
-            <input type="text" class="form-control" id="age" name="age" readonly>
+            <input type="text" class="form-control" id="age1" name="age1" readonly>
           </div>
 
           <div class="mb-3">
             <label class="col-form-label">Email:</label>
-            <input type="text" class="form-control" id="email" name="email" readonly>
+            <input type="text" class="form-control" id="email1" name="email1" readonly>
           </div>
 
           <div class="mb-3">
-            <label for="roles" class="col-form-label">Role</label>
-            <select id="roles" name="roles" class="form-control">
-              <option th:each="roles: ${roleList}"
-                      th:value="${roles.getId()}"
-                      th:text="${roles.getName()}">
-              </option>
+            <label for="roles1" class="col-form-label">Role</label>
+            <select multiple class="form-control" id="roles1" name="roles1" size="2" disabled>
+              <option th:each="role: ${roleList}"
+                      th:text="${role.getName()}"
+                      th:value="${role}"
+                      th:field="${user.roles}">
             </select>
           </div>
 
           <div class="modal-footer">
             <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-            <button type="submit" class="btn btn-success" onclick="deleteUser(user.id)">Delete user</button>
+            <button type="submit" class="btn btn-success" >Delete user</button>
           </div>
         </form>
       </div>

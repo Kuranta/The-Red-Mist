@@ -40,13 +40,14 @@ public class AdminController {
         response.sendRedirect("http://localhost:8080/admin");
     }
 
-    @GetMapping("/edit/{id}")
+    @GetMapping("/editUser/{id}")
     public User editUser(@PathVariable Long id) {
         return userService.getUserById(id);
     }
 
 
     @PostMapping("/deleteUser/{id}")
+    @SneakyThrows
     public void deleteUser(@PathVariable("id") Long id){
         userService.deleteUser(id);
     }
