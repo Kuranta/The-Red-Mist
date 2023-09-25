@@ -3,7 +3,6 @@ package com.springproject.security;
 
 import com.springproject.models.User;
 import com.springproject.service.UserService;
-import lombok.NonNull;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
@@ -22,7 +21,6 @@ public class UserDetailServiceImpl implements UserDetailsService {
 
     @Override
     public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException {
-        @NonNull()
         User user = userService.getUserByEmail(email);
         if(user == null) throw new UsernameNotFoundException(String.format("Email '%s' not found."));
         return user;

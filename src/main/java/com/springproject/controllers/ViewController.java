@@ -29,10 +29,10 @@ public class ViewController {
     }
 
     @GetMapping("/user")
-    public String userVies(Model model){
-
-
-
+    public String userView(Model model){
+        model.addAttribute("userList", userService.getUsers());
+        model.addAttribute("roleList",roleService.getRoles());
+        model.addAttribute("user", new User());
         return "user";
     }
 

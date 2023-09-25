@@ -10,68 +10,61 @@
 
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"></script>
 
+    <script src="getUsers.js"></script>
+    <script>getUsers()</script>
+
+    <script src="addUser.js"></script>
+
+    <script src="editUser.js"></script>
+
+    <script src="deleteUser.js"></script>
+
 </head>
 
-
-<div class="collapse" id="navbarToggleExternalContent" >
-    <div class="bg-dark p-4">
-        <h5 class="text-white h4">Collapsed content</h5>
-        <span class="text-muted">Toggleable via the navbar brand.</span>
-    </div>
-</div>
-
+<body>
 <!--NAV BAR-->
 <nav class="navbar navbar-dark bg-dark">
     <div class="container-fluid">
         <ul class="nav">
             <li class="nav-item">
                 <span class="text-light" sec:authentication="name">Email</span>
-               <span class="text-light" sec:authentication="principal.authorities">Roles</span>
+                <span class="text-light" sec:authentication="principal.authorities">Roles</span>
             </li>
         </ul>
         <a th:href="@{/logout}" class="text-secondary">Logout.</a>
     </div>
 </nav>
 
-
-<body>
-<!--LEFT SELECTER-->
-<!--<div class="navmenu navmenu-default navmenu-fixed-left offcanvas in canvas-slid">-->
-<!--    <a class="navmenu-brand" th:href="@{/admin}">ADMIN</a>-->
-<!--    <br>-->
-<!--    <a class="navmenu-brand" th:href="@{/user}">USER</a>-->
-<!--</div>-->
-
 <!--OTHER PAGES-->
-<div th:include="edit.html"></div>
-<!--<div th:include="newUser.html"></div>-->
-<div th:include="delete.html"></div>
+<div th:insert="~{edit.html}"></div>
+<div th:insert="~{delete.html}"></div>
+
+<!--LEFT SELECTER-->
+<div class="list-group" style="max-width: 10%;">
+    <a th:href = "admin" class="list-group-item list-group-item-action active">Admin</a>
+    <a th:href = "user" class="list-group-item list-group-item-action">User</a>
+</div>
 
 
 <!--ADMIN PANNEL-->
-<br>
 <div class="container my-2 "/>
-<h1>Admin pannel</h1>
-<br>
-
+<h1>Admin panel</h1>
 <nav>
     <div class="nav nav-tabs" id="nav-tab" role="tablist">
-        <a class="nav-item nav-link active" id="nav-home-tab" data-toggle="tab" href="#nav-home" role="tab" aria-controls="nav-home" aria-selected="true">Users table</a>
-
-        <a class="nav-item nav-link" id="nav-profile-tab" data-toggle="tab" href="#nav-profile" role="tab" aria-controls="nav-profile" aria-selected="false">New User</a>
+        <a class="nav-item nav-link active" id="nav-home-tab" data-toggle="tab" href="#nav-table" role="tab" aria-controls="nav-home" aria-selected="true">Users table</a>
+        <a class="nav-item nav-link" id="nav-profile-tab" data-toggle="tab" href="#nav-new" role="tab" aria-controls="nav-profile" aria-selected="false">New User</a>
     </div>
 </nav>
-<!--TABLE-->
 
+<!--TABLE-->
 <div class="tab-content" id="nav-tabContent">
-    <div class="tab-pane fade show active" id="nav-home" role="tabpanel" aria-labelledby="nav-home-tab">
+    <div class="tab-pane fade show active" id="nav-table" role="tabpanel" aria-labelledby="nav-home-tab">
         <div id="userTable">
             <table class="table table-striped">
                 <div class="p-1  bg-light text-dark">
                 <h4>All Users</h4>
                  </div>
                 <thead>
-
                 <th>FirstName</th>
                 <th>LastName</th>
                 <th>Age</th>
@@ -88,7 +81,11 @@
         </div>
     </div>
 
-    <div class="tab-pane fade" id="nav-profile" role="tabpanel" aria-labelledby="nav-profile-tab">
+
+    <div class="tab-pane fade" id="nav-new" role="tabpanel" aria-labelledby="nav-profile-tab">
+        <div class="p-1  bg-light text-dark">
+            <h4>Add new user</h4>
+        </div>
         <div id="addUser" tabindex="-1">
                 <div class="d-flex justify-content-center">
                     <form class="form" method="post" th:object="${user}" th:action="@{/api/saveUser}">
@@ -130,89 +127,6 @@
         </div>
     </div>
 </div>
-
-
-<script>
-    function getUsers(){
-            fetch("http://localhost:8080/api/getUsers").then(
-                (res)=>res.json()).then((response)=>{
-                    var tempData = '';
-                response.forEach((user)=>{
-                    var userRole = "";
-                    user.roles.forEach(function (role) {
-                        userRole += role.name + " ";
-                    })
-                        tempData += "<tr>";
-                        tempData += "<td>" + user.firstName + "</td>";
-                        tempData += "<td>" + user.lastName + "</td>";
-                        tempData += "<td>" + user.age + "</td>";
-                        tempData += "<td>" + user.email + "</td>";
-                        tempData += "<td>" + userRole + "</td>";
-                        tempData += "<td>" + "<a href='#editModal' data-toggle='modal' data-target='#editModal' class='btn btn-success edit-button' data-id='" + user.id + "' onclick='editUser(" + user.id + ")'>Edit" + "</td>";
-                        tempData += "<td>" + "<a href='#deleteModal' data-toggle='modal' class='btn btn-danger delete-button' " +
-                        "onclick='openDeleteModal(" + user.id + ", \"" + user.firstName + "\", \"" + user.lastName + "\", " + user.age + ", \"" + user.email + "\")'>Delete" + "</td>";
-                        tempData += "</tr>";
-                    })
-                document.getElementById("tData").innerHTML = tempData;
-                })
-        }
-        getUsers();
-
-
-    function addUser(){
-            let payload = {
-                firstName: document.getElementById("firstName").value,
-                lastName: document.getElementById("lastName").value,
-                age: document.getElementById("age").value,
-                email: document.getElementById("email").value,
-                password: document.getElementById("password").value,
-                roles: Array.from(document.getElementById("roles").selectedOptions).map(option => option.value)
-            }
-
-            fetch("http://localhost:8080/api/saveUser",{
-                method: "POST",
-                headers:{
-                    "Content-Type":"application/json"
-                },
-                body:JSON.stringify(payload)
-            })
-        }
-
-    //clean form if close it
-    $('#addModal').on('hidden.bs.modal', function () {
-        $(this).find('form').trigger('reset');
-    })
-
-
-    function openDeleteModal(id, firstName, lastName, age, email) {
-        document.getElementById("id1").value = id;
-        document.getElementById("firstName1").value = firstName;
-        document.getElementById("lastName1").value = lastName;
-        document.getElementById("age1").value = age;
-        document.getElementById("email1").value = email;
-    }
-
-    function deleteUser() {
-        var userId = document.getElementById("id1").value;
-        fetch("http://localhost:8080/api/deleteUser/" + userId, {
-            method: 'POST'
-        })
-    }
-
-
-    function editUser(id){
-            fetch("http://localhost:8080/api/editUser/" + id, {
-                method: "GET"
-            }).then((res)=>res.json()).then((response)=>{
-                console.log("call",response);
-                document.getElementById("id").value = response.id;
-                document.getElementById("firstName").value = response.firstName;
-                document.getElementById("lastName").value = response.lastName;
-                document.getElementById("age").value = response.age;
-                document.getElementById("email").value = response.email;
-            })
-        }
-</script>
 </body>
 </html>
 

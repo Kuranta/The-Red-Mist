@@ -1,12 +1,12 @@
 function addUser(){
-    let payload ={};
-    let roles = Array.from(document.getElementById("roles").selectedOptions).map(option=>option.value);
-    payload['firstName'] = document.getElementById("firstName").value;
-    payload['lastName'] = document.getElementById("lastName").value;
-    payload['age'] = document.getElementById("age").value;
-    payload['email'] = document.getElementById("email").value;
-    payload['password'] = document.getElementById("password").value;
-    payload['roles'] = roles;
+    let payload = {
+        firstName: document.getElementById("firstName").value,
+        lastName: document.getElementById("lastName").value,
+        age: document.getElementById("age").value,
+        email: document.getElementById("email").value,
+        password: document.getElementById("password").value,
+        roles: Array.from(document.getElementById("roles").selectedOptions).map(option => option.value)
+    }
 
     fetch("http://localhost:8080/api/saveUser",{
         method: "POST",

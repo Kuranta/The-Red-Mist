@@ -6,15 +6,12 @@ import com.springproject.models.Role;
 import com.springproject.models.User;
 import lombok.SneakyThrows;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
-import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.EnableTransactionManagement;
 import org.springframework.transaction.annotation.Transactional;
 
 
-import java.util.Collections;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -23,11 +20,15 @@ import java.util.Set;
 @EnableTransactionManagement
 public class UserServiceImpl implements UserService {
 
-    @Autowired
-    private UserDAO userDAO;
+    private final UserDAO userDAO;
+
+    private final RoleService roleService;
 
     @Autowired
-    private RoleService roleService;
+    public UserServiceImpl(UserDAO userDAO, RoleService roleService) {
+        this.userDAO = userDAO;
+        this.roleService = roleService;
+    }
 
     @Override
     @Transactional
@@ -45,7 +46,6 @@ public class UserServiceImpl implements UserService {
             Role searchRole = roleService.findRole(role.getName());
             roles.add(searchRole);
         }
-//        user.setRoles(Collections.singleton(new Role(1l,"ROLE_ADMIN")));
         user.setRoles(roles);
         user.setPassword(new BCryptPasswordEncoder().encode(user.getPassword()));
         userDAO.saveUser(user);
