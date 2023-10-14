@@ -88,7 +88,7 @@
         </div>
         <div id="addUser" tabindex="-1">
                 <div class="d-flex justify-content-center">
-                    <form class="form" method="post" th:object="${user}" th:action="@{/api/saveUser}">
+                    <form class="form" method="post" th:action="@{/api/saveUser}">
                     <div class="mb-3">
                         <label class="col-form-label">FirstName:</label>
                         <input type="text" class="form-control" id="firstName" name="firstName">
@@ -114,8 +114,7 @@
                         <select multiple class="form-control" id="roles" name="roles" size="2">
                             <option th:each="role: ${roleList}"
                                     th:text="${role.getName()}"
-                                    th:value="${role}"
-                                    th:field="${user.roles}">
+                                    th:value="${role}">
                             </option>
                         </select>
                     </div>

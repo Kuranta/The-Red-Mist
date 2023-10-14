@@ -9,7 +9,7 @@ function openDeleteModal(id, firstName, lastName, age, email) {
 function deleteUser() {
     var userId = document.getElementById("id1").value;
     fetch("http://localhost:8080/api/deleteUser/" + userId, {
-        method: 'POST'
+        method: 'DELETE'
     })
     window.location.href = '/admin';
 }

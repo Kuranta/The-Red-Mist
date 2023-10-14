@@ -41,8 +41,8 @@
             <select multiple class="form-control" id="roles1" name="roles1" size="2" disabled>
               <option th:each="role: ${roleList}"
                       th:text="${role.getName()}"
-                      th:value="${role}"
-                      th:field="${user.roles}">
+                      th:value="${role}">
+              </option>
             </select>
           </div>
 

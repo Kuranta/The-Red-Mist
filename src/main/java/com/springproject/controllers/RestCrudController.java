@@ -3,7 +3,6 @@ package com.springproject.controllers;
 import com.springproject.models.User;
 import com.springproject.service.RoleService;
 import com.springproject.service.UserService;
-import jakarta.servlet.http.HttpServletResponse;
 import lombok.SneakyThrows;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
@@ -28,19 +27,23 @@ public class RestCrudController {
         return userService.getUsers();
     }
 
-    @PostMapping("/saveUser")
-    @SneakyThrows
-    public void saveUser(@ModelAttribute User user, HttpServletResponse response) {
-        userService.saveUser(user);
-        response.sendRedirect("http://localhost:8080/admin");
-    }
-
-    @GetMapping("/editUser/{id}")
-    public User editUser(@PathVariable Long id) {
+    @GetMapping("/getUser/{id}")
+    public User getSingleUser(@PathVariable Long id){
         return userService.getUserById(id);
     }
 
-    @PostMapping("/deleteUser/{id}")
+    @PostMapping("/saveUser")
+    @SneakyThrows
+    public void saveUser(@RequestBody User user) {
+        userService.saveUser(user);
+    }
+
+    @PatchMapping("/editUser/{id}")
+    public void editUser(@RequestBody User user) {
+        userService.saveUser(user);
+    }
+
+    @DeleteMapping("/deleteUser/{id}")
     @SneakyThrows
     public void deleteUser(@PathVariable("id") Long id){
         userService.deleteUser(id);
