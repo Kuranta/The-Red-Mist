@@ -1,21 +1,19 @@
 package com.springproject.controllers;
 
 import com.springproject.service.RoleService;
-import com.springproject.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 
+
 @Controller
 public class ViewController {
-
-    private final UserService userService;
     private final RoleService roleService;
 
     @Autowired
-    public ViewController(UserService userService, RoleService roleService) {
-        this.userService = userService;
+    public ViewController(RoleService roleService) {
         this.roleService = roleService;
     }
 
@@ -30,6 +28,8 @@ public class ViewController {
         return "user";
     }
 
-
-
+    @GetMapping("/login")
+    public String loginView(){
+        return "login";
+    }
 }

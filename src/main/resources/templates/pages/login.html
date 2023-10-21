@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en"xmlns:th="https://www.thymeleaf.org/thymeleaf-extras-springsecurity5">
+<head>
+    <meta charset="UTF-8">
+    <title>People</title>
+
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.0.0/jquery.min.js"></script>
+
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"></script>
+
+    <script src="login.js"></script>
+
+</head>
+<body>
+<center>
+    <h1>Please Log In</h1>
+    <div th:if="${param.error}">
+        Invalid email and password.
+    </div>
+    <div th:if="${param.logout}">
+        You have been logged out.
+    </div>
+    <form id="loginForm" method="POST" th:action="@{/auth}">
+        <div>
+            <input type="text" id="logEmail" name="logEmail" placeholder="Email"/>
+        </div>
+        <div>
+            <input type="password" id="logPassword" name="logPassword" placeholder="Password"/>
+        </div>
+        <input type="submit" value="Log in" onclick="loginUser()"/>
+    </form>
+</center>
+</body>
+</html>

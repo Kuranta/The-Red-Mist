@@ -11,6 +11,7 @@
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"></script>
 
     <script src="getUsers.js"></script>
+
     <script>getSimpleUsers()</script>
 
 </head>
@@ -21,8 +22,8 @@
     <div class="container-fluid">
         <ul class="nav">
             <li class="nav-item">
-                <span class="text-light" sec:authentication="name">Email</span>
-                <span class="text-light" sec:authentication="principal.authorities">Roles</span>
+<!--                <span class="text-light" sec:authentication="name">Email</span>-->
+<!--                <span class="text-light" sec:authentication="principal.authorities">Roles</span>-->
             </li>
         </ul>
         <a th:href="@{/logout}" class="text-secondary">Logout.</a>

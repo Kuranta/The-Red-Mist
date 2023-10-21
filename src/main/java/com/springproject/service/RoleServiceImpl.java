@@ -12,7 +12,6 @@ import java.util.List;
 @Service
 @EnableTransactionManagement
 public class RoleServiceImpl implements RoleService{
-
     private final RoleDAO roleDAO;
 
     @Autowired

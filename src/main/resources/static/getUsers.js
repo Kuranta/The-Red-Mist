@@ -1,5 +1,11 @@
 function getUsers(){
-    fetch("http://localhost:8080/api/getUsers").then(
+    fetch("http://localhost:8080/api/users", {
+        method: "GET",
+        headers: {
+            'Content-Type': 'application/json',
+            "Authorization": "Bearer " + localStorage.getItem("token")
+        },
+    }).then(
         (res)=>res.json()).then((response)=>{
         var tempData = '';
         response.forEach((user)=>{
@@ -23,7 +29,13 @@ function getUsers(){
 }
 
 function getSimpleUsers(){
-    fetch("http://localhost:8080/api/getUsers").then(
+    fetch("http://localhost:8080/api/users",{
+        method: "GET",
+        headers: {
+            "Content-Type": 'application/json',
+            "Authorization": "Bearer " + localStorage.getItem("token")
+        }
+    }).then(
         (res)=>res.json()).then((response)=>{
         var tempData = '';
         response.forEach((user)=>{

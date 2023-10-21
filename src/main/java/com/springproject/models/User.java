@@ -2,7 +2,7 @@ package com.springproject.models;
 
 import jakarta.persistence.*;
 import jakarta.validation.constraints.Email;
-import jakarta.validation.constraints.Size;
+import jakarta.validation.constraints.NotNull;
 import lombok.*;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -20,22 +20,23 @@ public class User implements UserDetails {
     private Long id;
 
     @Column(name = "firstName")
-    @Size(min=2, message = "Incorrect FirstName created")
+    @NotNull
     private String firstName;
 
     @Column(name = "lastName")
-    @Size(min=2, message = "Incorrect LastName created")
+    @NotNull
     private String lastName;
 
     @Column
+    @NotNull
     private Integer age;
 
-    @Size(min=2, message = "Incorrect email created")
     @Email
+    @NotNull
     private String email; //Unique parameter
 
     @Column
-    @Size(min = 4, message = "Incorrect password created")
+    @NotNull
     private String password;
 
     @ManyToMany(fetch = FetchType.EAGER)

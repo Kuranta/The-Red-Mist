@@ -8,8 +8,12 @@ function openDeleteModal(id, firstName, lastName, age, email) {
 
 function deleteUser() {
     var userId = document.getElementById("id1").value;
-    fetch("http://localhost:8080/api/deleteUser/" + userId, {
-        method: 'DELETE'
+    fetch("http://localhost:8080/api/users/" + userId, {
+        method: 'DELETE',
+        headers:{
+            'Content-Type': 'application/json',
+            "Authorization": "Bearer " + localStorage.getItem("token")
+        }
     })
     window.location.href = '/admin';
 }

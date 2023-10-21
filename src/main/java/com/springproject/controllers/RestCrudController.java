@@ -14,36 +14,34 @@ import java.util.List;
 public class RestCrudController {
 
     private final UserService userService;
-    private final RoleService roleService;
 
     @Autowired
-    public RestCrudController(UserService userService, RoleService roleService) {
+    public RestCrudController(UserService userService) {
         this.userService = userService;
-        this.roleService = roleService;
     }
 
-    @GetMapping("/getUsers")
+    @GetMapping("/users")
     public List<User> admin() {
         return userService.getUsers();
     }
 
-    @GetMapping("/getUser/{id}")
+    @GetMapping("/users/{id}")
     public User getSingleUser(@PathVariable Long id){
         return userService.getUserById(id);
     }
 
-    @PostMapping("/saveUser")
+    @PostMapping("/users")
     @SneakyThrows
     public void saveUser(@RequestBody User user) {
         userService.saveUser(user);
     }
 
-    @PatchMapping("/editUser/{id}")
+    @PatchMapping("/users/{id}")
     public void editUser(@RequestBody User user) {
         userService.saveUser(user);
     }
 
-    @DeleteMapping("/deleteUser/{id}")
+    @DeleteMapping("/users/{id}")
     @SneakyThrows
     public void deleteUser(@PathVariable("id") Long id){
         userService.deleteUser(id);

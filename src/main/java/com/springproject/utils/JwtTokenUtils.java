@@ -24,18 +24,18 @@ public class JwtTokenUtils {
     private Duration tokenLifetime;
 
     public String generateToken(UserDetails userDetails){
-        Map<String, Object> payload = new HashMap<>();
+        Map<String, Object> claims = new HashMap<>();
         List<String> roleList = userDetails.getAuthorities()
                 .stream()
                 .map(GrantedAuthority::getAuthority)
                 .collect(Collectors.toList());
-        payload.put("roles",roleList);
+        claims.put("roles",roleList);
 
         Date startLifetime = new Date();
         Date endLifetime = new Date(startLifetime.getTime() + tokenLifetime.toMillis());
 
         return Jwts.builder()
-                .setClaims(payload)
+                .setClaims(claims)
                 .setSubject(userDetails.getUsername())
                 .setIssuedAt(startLifetime)
                 .setExpiration(endLifetime)
@@ -44,16 +44,17 @@ public class JwtTokenUtils {
     }
 
     public String getEmail(String token){
-        return getPayloadFromToken(token).getSubject();
+        return getClaimsFromToken(token).getSubject();
     }
 
     public List<String> getRoles(String token){
-        return getPayloadFromToken(token).get("roles", List.class);
+        return getClaimsFromToken(token).get("roles", List.class);
     }
 
-    private Claims getPayloadFromToken(String token){
+    private Claims getClaimsFromToken(String token) {
         return Jwts.parser()
                 .setSigningKey(secret)
+                .build()
                 .parseClaimsJws(token)
                 .getBody();
     }

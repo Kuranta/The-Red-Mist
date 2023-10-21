@@ -11,6 +11,7 @@
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"></script>
 
     <script src="getUsers.js"></script>
+
     <script>getUsers()</script>
 
     <script src="addUser.js"></script>
@@ -22,18 +23,21 @@
 </head>
 
 <body>
+
+
 <!--NAV BAR-->
 <nav class="navbar navbar-dark bg-dark">
     <div class="container-fluid">
         <ul class="nav">
             <li class="nav-item">
-                <span class="text-light" sec:authentication="name">Email</span>
-                <span class="text-light" sec:authentication="principal.authorities">Roles</span>
+<!--                <span class="text-light" sec:authentication="name">Email</span>-->
+<!--                <span class="text-light" sec:authentication="principal.authorities">Roles</span>-->
             </li>
         </ul>
         <a th:href="@{/logout}" class="text-secondary">Logout.</a>
     </div>
 </nav>
+
 
 <!--OTHER PAGES-->
 <div th:insert="~{edit.html}"></div>
@@ -88,7 +92,7 @@
         </div>
         <div id="addUser" tabindex="-1">
                 <div class="d-flex justify-content-center">
-                    <form class="form" method="post" th:action="@{/api/saveUser}">
+                    <form class="form">
                     <div class="mb-3">
                         <label class="col-form-label">FirstName:</label>
                         <input type="text" class="form-control" id="firstName" name="firstName">
@@ -126,6 +130,7 @@
         </div>
     </div>
 </div>
+
 </body>
 </html>
 

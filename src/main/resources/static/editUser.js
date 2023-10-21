@@ -1,6 +1,10 @@
 function editUser(id){
-    fetch("http://localhost:8080/api/getUser/" + id, {
-        method: "GET"
+    fetch("http://localhost:8080/api/users/" + id, {
+        method: "GET",
+        headers: {
+            'Content-Type': 'application/json',
+            "Authorization": "Bearer " + localStorage.getItem("token")
+        }
     }).then((res)=>res.json()).then((response)=>{
         document.getElementById("id2").value = response.id;
         document.getElementById("firstName2").value = response.firstName;
@@ -30,10 +34,11 @@ function editUserData() {
         roles: roles
     };
 
-    fetch('/api/editUser/' + id, {
+    fetch('/api/users/' + id, {
         method: 'PATCH',
         headers: {
-            'Content-Type': 'application/json'
+            'Content-Type': 'application/json',
+            "Authorization": "Bearer " + localStorage.getItem("token")
         },
         body: JSON.stringify(user)
     })
