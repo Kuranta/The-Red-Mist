@@ -14,7 +14,6 @@ import org.springframework.security.config.annotation.web.configuration.EnableWe
 import org.springframework.security.config.annotation.web.configurers.AbstractHttpConfigurer;
 import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.core.userdetails.UserDetailsService;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.HttpStatusEntryPoint;
@@ -30,11 +29,13 @@ public class SecurityConfig {
 
     private final JwtRequestFilter jwtRequestFilter;
     private final UserDetailsService userDetailService;
+    private final PasswordEncoder passwordEncoder;
 
     @Autowired
-    public SecurityConfig(JwtRequestFilter jwtRequestFilter, UserDetailsService userDetailService) {
+    public SecurityConfig(JwtRequestFilter jwtRequestFilter, UserDetailsService userDetailService, PasswordEncoder passwordEncoder) {
         this.jwtRequestFilter = jwtRequestFilter;
         this.userDetailService = userDetailService;
+        this.passwordEncoder = passwordEncoder;
     }
 
     @Bean
@@ -56,7 +57,7 @@ public class SecurityConfig {
                         .usernameParameter("logEmail")
                         .passwordParameter("logPassword")
                         .permitAll())
-                        .addFilterBefore(jwtRequestFilter, UsernamePasswordAuthenticationFilter.class)
+                .addFilterBefore(jwtRequestFilter, UsernamePasswordAuthenticationFilter.class)
                 .exceptionHandling(auth -> auth
                         .authenticationEntryPoint(new HttpStatusEntryPoint(HttpStatus.UNAUTHORIZED)))
                 .csrf(AbstractHttpConfigurer::disable)
@@ -74,16 +75,8 @@ public class SecurityConfig {
     public DaoAuthenticationProvider authenticationProvider(){
         DaoAuthenticationProvider daoAuthenticationProvider = new DaoAuthenticationProvider();
         daoAuthenticationProvider.setUserDetailsService(userDetailService);
-        daoAuthenticationProvider.setPasswordEncoder(passwordEncoder());
+        daoAuthenticationProvider.setPasswordEncoder(passwordEncoder);
         return daoAuthenticationProvider;
     }
-
-    @Bean
-    public PasswordEncoder passwordEncoder() {
-        return new BCryptPasswordEncoder();
-    }
-
-
-
 
 }

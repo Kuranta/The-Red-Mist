@@ -2,7 +2,7 @@ package com.springproject.security;
 
 
 import com.springproject.models.User;
-import com.springproject.service.UserService;
+import com.springproject.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
@@ -12,17 +12,16 @@ import org.springframework.stereotype.Service;
 @Service
 public class UserDetailServiceImpl implements UserDetailsService {
 
-    public final UserService userService;
+    public final UserRepository userRepository;
 
     @Autowired
-    public UserDetailServiceImpl(UserService userService) {
-        this.userService = userService;
+    public UserDetailServiceImpl(UserRepository userRepository) {
+        this.userRepository = userRepository;
     }
 
     @Override
     public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException {
-        User user = userService.getUserByEmail(email);
-        if(user == null) throw new UsernameNotFoundException(String.format("Email '%s' not found."));
+        User user = userRepository.findByEmail(email).orElseThrow(() -> new UsernameNotFoundException("Email not found"));
         return user;
     }
 }

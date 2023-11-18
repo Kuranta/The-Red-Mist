@@ -32,6 +32,7 @@ public class AuthenticationService {
         catch (BadCredentialsException e){
             throw new BadCredentialsException("Invalid username or password supplied.");
         }
+
         String token = jwtTokenUtils.generateToken(userDetailsService.loadUserByUsername(request.getEmail()));
         return ResponseEntity.ok(new JwtResponse(token));
     }

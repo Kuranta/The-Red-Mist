@@ -1,71 +1,114 @@
 package com.springproject.service;
 
-
-import com.springproject.dao.UserDAO;
+import com.springproject.dto.UserCreationRequest;
+import com.springproject.dto.UserDTO;
+import com.springproject.dto.UserDTOMapper;
+import com.springproject.dto.UserUpdateDTO;
 import com.springproject.models.Role;
 import com.springproject.models.User;
+import com.springproject.repository.RoleRepository;
+import com.springproject.repository.UserRepository;
 import lombok.SneakyThrows;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.EnableTransactionManagement;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.HashSet;
 import java.util.List;
+import java.util.NoSuchElementException;
 import java.util.Set;
+import java.util.stream.Collectors;
 
 @Service
 @EnableTransactionManagement
 public class UserServiceImpl implements UserService {
-
-    private final UserDAO userDAO;
-
-    private final RoleService roleService;
+    private final UserRepository userRepository;
+    private final RoleRepository roleRepository;
+    private final UserDTOMapper userDTOMapper;
+    private final PasswordEncoder passwordEncoder;
 
     @Autowired
-    public UserServiceImpl(UserDAO userDAO, RoleService roleService) {
-        this.userDAO = userDAO;
-        this.roleService = roleService;
+    public UserServiceImpl(UserRepository userRepository, RoleRepository roleRepository, UserDTOMapper userDTOMapper, PasswordEncoder passwordEncoder) {
+        this.userRepository = userRepository;
+        this.roleRepository = roleRepository;
+        this.userDTOMapper = userDTOMapper;
+        this.passwordEncoder = passwordEncoder;
     }
 
     @Override
     @Transactional
-    public List<User> getUsers() {
-        return userDAO.readAllUser();
+    public List<UserDTO> getUsers() {
+        return userRepository.findAll()
+                .stream()
+                .map(userDTOMapper)
+                    .collect(Collectors.toList());
     }
-
 
     @Override
     @Transactional
     @SneakyThrows
-    public void saveUser(User user) {
+    public User saveUser(UserCreationRequest userCreationRequest) {
         Set<Role> roles = new HashSet<>();
-        for (Role role : user.getRoles()) {
-            Role searchRole = roleService.findRole(role.getName());
+        for (Role role : userCreationRequest.roles()) {
+            Role searchRole = roleRepository.findByName(role.getName()).orElseThrow(() -> new NoSuchElementException("Role not found with name: " + role.getName()));
             roles.add(searchRole);
         }
-        user.setRoles(roles);
-        user.setPassword(new BCryptPasswordEncoder().encode(user.getPassword()));
-        userDAO.saveUser(user);
+        if (roles.size()<1){
+            throw new IllegalAccessException("User must have at lease one role");
+        }
+
+        User user = new User(userCreationRequest.firstName(),
+                userCreationRequest.lastName(),
+                userCreationRequest.age(),
+                userCreationRequest.email(),
+                passwordEncoder.encode(userCreationRequest.password()),
+                roles);
+        userRepository.save(user);
+        return user;
+    }
+
+    @Override
+    @Transactional
+    @SneakyThrows
+    public User updateUser(UserUpdateDTO updateDTO) {
+        Set<Role> roles = new HashSet<>();
+        for (Role role : updateDTO.roles()) {
+            Role searchRole = roleRepository.findByName(role.getName()).orElseThrow(() -> new NoSuchElementException("Role not found with name: " + role.getName()));
+            roles.add(searchRole);
+        }
+
+        User user = new User(
+                updateDTO.id(),
+                updateDTO.firstName(),
+                updateDTO.lastName(),
+                updateDTO.age(),
+                updateDTO.email(),
+                passwordEncoder.encode(updateDTO.password()),
+                roles);
+        userRepository.save(user);
+        return user;
     }
 
     @Override
     @Transactional
     public void deleteUser(Long id) {
-        userDAO.deleteUser(id);
+        User user = userRepository.findById(id).orElseThrow(() -> new NoSuchElementException("User not found with id: " + id));
+        userRepository.deleteById(id);
     }
 
     @Override
     @Transactional
-    public User getUserById(Long id) {
-        return userDAO.getUserById(id);
+    public UserDTO getUserById(Long id) {
+        return userRepository.findById(id).map(userDTOMapper).orElseThrow(() -> new NoSuchElementException("User not found with id: " + id));
     }
 
     @Override
     @Transactional
-    public User getUserByEmail(String email) {
-        return userDAO.getUserByEmail(email);
+    public UserDTO getUserByEmail(String email) {
+        return userRepository.findByEmail(email).map(userDTOMapper).orElseThrow(() -> new NoSuchElementException("User not found with email: " + email));
     }
+
 
 }

@@ -1,7 +1,9 @@
 package com.springproject.controllers;
 
+import com.springproject.dto.UserCreationRequest;
+import com.springproject.dto.UserDTO;
+import com.springproject.dto.UserUpdateDTO;
 import com.springproject.models.User;
-import com.springproject.service.RoleService;
 import com.springproject.service.UserService;
 import lombok.SneakyThrows;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,24 +23,25 @@ public class RestCrudController {
     }
 
     @GetMapping("/users")
-    public List<User> admin() {
+    public List<UserDTO> getUsers() {
         return userService.getUsers();
     }
 
     @GetMapping("/users/{id}")
-    public User getSingleUser(@PathVariable Long id){
+    public UserDTO getSingleUser(@PathVariable Long id){
         return userService.getUserById(id);
     }
 
     @PostMapping("/users")
     @SneakyThrows
-    public void saveUser(@RequestBody User user) {
-        userService.saveUser(user);
+    public UserCreationRequest saveUser(@RequestBody UserCreationRequest userCreationRequest) {
+        userService.saveUser(userCreationRequest);
+        return userCreationRequest;
     }
 
     @PatchMapping("/users/{id}")
-    public void editUser(@RequestBody User user) {
-        userService.saveUser(user);
+    public User editUser(@RequestBody UserUpdateDTO updateDTO) {
+        return userService.updateUser(updateDTO);
     }
 
     @DeleteMapping("/users/{id}")

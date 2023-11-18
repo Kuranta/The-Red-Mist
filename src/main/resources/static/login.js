@@ -7,7 +7,7 @@ function loginUser() {
     addForm.addEventListener('submit', (e) => {
         e.preventDefault();
     });
-
+    console.log(user)
     fetch("http://localhost:8080/auth", {
         method: "POST",
         headers: {

@@ -1,9 +1,13 @@
 package com.springproject.models;
 
+import jakarta.annotation.Nullable;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotNull;
-import lombok.*;
+import jakarta.validation.constraints.Size;
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
@@ -13,34 +17,48 @@ import java.util.Set;
 @Entity
 @Table(name = "users")
 @Data
+@AllArgsConstructor
+@NoArgsConstructor
 public class User implements UserDetails {
 
     @Id
+    @Column(unique = true)
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(name = "firstName")
-    @NotNull
+    @Column(name = "firstName", nullable = false)
+    @Size(min = 2, max = 20)
     private String firstName;
 
-    @Column(name = "lastName")
-    @NotNull
+    @Column(name = "lastName", nullable = false)
+    @Size(min = 3, max = 20)
     private String lastName;
 
-    @Column
+    @Column(nullable = false)
     @NotNull
     private Integer age;
 
     @Email
     @NotNull
+    @Column(nullable = false, unique = true)
+    @Size(min = 1, max = 30)
     private String email; //Unique parameter
 
-    @Column
+    @Column(nullable = false)
     @NotNull
     private String password;
 
     @ManyToMany(fetch = FetchType.EAGER)
     private Set<Role> roles;
+
+    public User(String firstName, String lastName, Integer age, String email, String password, Set<Role> roles) {
+        this.firstName = firstName;
+        this.lastName = lastName;
+        this.age = age;
+        this.email = email;
+        this.password = password;
+        this.roles = roles;
+    }
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
