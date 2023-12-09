@@ -5,6 +5,7 @@ import com.springproject.dto.UserDTO;
 import com.springproject.dto.UserUpdateDTO;
 import com.springproject.models.User;
 import com.springproject.service.UserService;
+import jakarta.validation.Valid;
 import lombok.SneakyThrows;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
@@ -34,7 +35,7 @@ public class RestCrudController {
 
     @PostMapping("/users")
     @SneakyThrows
-    public UserCreationRequest saveUser(@RequestBody UserCreationRequest userCreationRequest) {
+    public UserCreationRequest saveUser(@Valid @RequestBody UserCreationRequest userCreationRequest) {
         userService.saveUser(userCreationRequest);
         return userCreationRequest;
     }

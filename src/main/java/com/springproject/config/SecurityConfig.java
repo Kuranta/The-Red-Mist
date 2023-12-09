@@ -21,8 +21,6 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 
 import static org.springframework.security.web.util.matcher.AntPathRequestMatcher.antMatcher;
 
-
-
 @EnableWebSecurity
 @Configuration
 public class SecurityConfig {
@@ -43,10 +41,10 @@ public class SecurityConfig {
     public SecurityFilterChain filterChain(HttpSecurity http){
         http
                 .authorizeHttpRequests(requests -> requests
-                        .requestMatchers(antMatcher(HttpMethod.GET,"/api/users")).hasAnyRole("USER","ADMIN")
-                        .requestMatchers(antMatcher(HttpMethod.PATCH,"/api/users")).hasRole("ADMIN")
-                        .requestMatchers(antMatcher(HttpMethod.POST,"/api/users")).hasRole("ADMIN")
-                        .requestMatchers(antMatcher(HttpMethod.DELETE,"/api/users")).hasRole("ADMIN")
+                        .requestMatchers(antMatcher(HttpMethod.GET,"/api/**")).hasAnyRole("USER","ADMIN")
+                        .requestMatchers(antMatcher(HttpMethod.PATCH,"/api/**")).hasRole("ADMIN")
+                        .requestMatchers(antMatcher(HttpMethod.POST,"/api/**")).hasRole("ADMIN")
+                        .requestMatchers(antMatcher(HttpMethod.DELETE,"/api/**")).hasRole("ADMIN")
                         .anyRequest().permitAll()
                 )
                 .sessionManagement(session -> session
