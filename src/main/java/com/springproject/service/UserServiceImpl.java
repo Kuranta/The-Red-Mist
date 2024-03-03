@@ -58,13 +58,13 @@ public class UserServiceImpl implements UserService {
         if (roles.size()<1){
             throw new IllegalAccessException("User must have at lease one role");
         }
-
-        User user = new User(userCreationRequest.firstName(),
-                userCreationRequest.lastName(),
-                userCreationRequest.age(),
-                userCreationRequest.email(),
-                passwordEncoder.encode(userCreationRequest.password()),
-                roles);
+        User user = new User()
+                .setFirstName(userCreationRequest.firstName())
+                .setLastName(userCreationRequest.lastName())
+                .setAge(userCreationRequest.age())
+                .setEmail(userCreationRequest.email())
+                .setPassword(passwordEncoder.encode(userCreationRequest.password()))
+                .setRoles(userCreationRequest.roles());
         userRepository.save(user);
         return user;
     }
@@ -79,14 +79,17 @@ public class UserServiceImpl implements UserService {
             roles.add(searchRole);
         }
 
-        User user = new User(
-                updateDTO.id(),
-                updateDTO.firstName(),
-                updateDTO.lastName(),
-                updateDTO.age(),
-                updateDTO.email(),
-                passwordEncoder.encode(updateDTO.password()),
-                roles);
+        if (roles.size()<1){
+            throw new IllegalAccessException("User must have at lease one role");
+        }
+        User user = new User()
+                .setId(updateDTO.id())
+                .setFirstName(updateDTO.firstName())
+                .setLastName(updateDTO.lastName())
+                .setAge(updateDTO.age())
+                .setEmail(updateDTO.email())
+                .setPassword(passwordEncoder.encode(updateDTO.password()))
+                .setRoles(updateDTO.roles());
         userRepository.save(user);
         return user;
     }

@@ -7,6 +7,5 @@ import jakarta.validation.constraints.NotNull;
 
 import java.util.Set;
 
-@NotEmpty
 public record UserCreationRequest (String firstName, String lastName, Integer age, String email, String password, Set<Role> roles){
 }
