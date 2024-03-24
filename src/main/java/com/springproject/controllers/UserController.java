@@ -5,7 +5,6 @@ import com.springproject.dto.UserDTO;
 import com.springproject.dto.UserUpdateDTO;
 import com.springproject.models.User;
 import com.springproject.service.UserService;
-import jakarta.validation.Valid;
 import lombok.SneakyThrows;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
@@ -14,12 +13,12 @@ import java.util.List;
 
 @RestController
 @RequestMapping(value = "/api")
-public class RestCrudController {
+public class UserController {
 
     private final UserService userService;
 
     @Autowired
-    public RestCrudController(UserService userService) {
+    public UserController(UserService userService) {
         this.userService = userService;
     }
 
@@ -35,9 +34,9 @@ public class RestCrudController {
 
     @PostMapping("/users")
     @SneakyThrows
-    public UserCreationRequest saveUser(@Valid @RequestBody UserCreationRequest userCreationRequest) {
-        userService.saveUser(userCreationRequest);
-        return userCreationRequest;
+    public User saveUser(@RequestBody UserCreationRequest userCreationRequest) {
+        return userService.saveUser(userCreationRequest);
+
     }
 
     @PatchMapping("/users/{id}")

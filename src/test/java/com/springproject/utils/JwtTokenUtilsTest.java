@@ -2,13 +2,11 @@ package com.springproject.utils;
 
 import com.springproject.models.Role;
 import com.springproject.models.User;
-import com.springproject.repository.UserRepository;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.junit.jupiter.MockitoExtension;
-import org.springframework.security.core.userdetails.UserDetails;
 
 import java.util.Collections;
 import java.util.List;
@@ -25,7 +23,8 @@ class JwtTokenUtilsTest {
     @Test
     void generateToken_shouldReturnJwtToken_whenUserExists() {
         //given
-        User user =new User(1L,"Fedor","Seleznev",19,"seleznev95@bk.ru","password", Collections.singleton(new Role(2l,"USER")));
+        User user = new User(
+                1L,"Fartish","Cleared",28,"fartish@ch.ru","password", Collections.singleton(new Role(2l,"USER")));
         String expectedToken = "token";
         //when
         Mockito.when(jwtTokenUtils.generateToken(user)).thenReturn(expectedToken);
@@ -40,7 +39,7 @@ class JwtTokenUtilsTest {
     void getEmail_shouldReturnUserEmail_whenJwtTokenExists() {
         //given
         String expectedToken = "token";
-        String expectedEmail = "seleznev95@bk.ru";
+        String expectedEmail = "fartish@ch.ru";
         //when
         Mockito.when(jwtTokenUtils.getEmail(expectedToken)).thenReturn(expectedEmail);
         String actualEmail = jwtTokenUtils.getEmail(expectedToken);
