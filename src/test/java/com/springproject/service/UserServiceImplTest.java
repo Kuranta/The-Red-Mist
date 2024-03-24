@@ -8,14 +8,12 @@ import com.springproject.models.User;
 import com.springproject.repository.RoleRepository;
 import com.springproject.repository.UserRepository;
 import org.hibernate.exception.ConstraintViolationException;
-import org.junit.Before;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.Mockito;
-import org.mockito.MockitoAnnotations;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
@@ -41,9 +39,9 @@ class UserServiceImplTest {
     void getUsers_shouldCallUserRepository_returnListUserDTO(){
         //given
         User user1 = new User(
-                1L,"Fedor","Seleznev",19,"seleznev95@bk.ru","password", Collections.singleton(new Role(2l,"USER")));
+                1L,"Fartish","Cleared",28,"fartish@ch.ru","password", Collections.singleton(new Role(2l,"USER")));
         User user2 = new User(
-                2L,"Vlad","Chilchigashev",21,"i965@ya.ru","password", Collections.singleton(new Role(2l,"USER")));
+                2L,"Roland","BlackSilence",21,"sorrow@lor.korea","password", Collections.singleton(new Role(2l,"USER")));
         List<User> userList = List.of(user1,user2);
         //when
         Mockito.when(userRepository.findAll()).thenReturn(userList);
@@ -58,10 +56,10 @@ class UserServiceImplTest {
     void getSingleUser_shouldCallUserRepository_returnUserDTO(){
         //given
         Long id = 1L;
-        User user =new User(
-                1L,"Fedor","Seleznev",19,"seleznev95@bk.ru","password", Collections.singleton(new Role(2l,"USER")));
+        User user = new User(
+                1L,"Fartish","Cleared",28,"fartish@ch.ru","password", Collections.singleton(new Role(2l,"USER")));
         UserDTO expectedDTO = new UserDTO(
-                1L,"Fedor","Seleznev","seleznev95@bk.ru",19, Collections.singleton(new Role(2l,"USER")));
+                1L,"Fartish","Cleared","fartish@ch.ru",28, Collections.singleton(new Role(2l,"USER")));
         //when
         Mockito.when(userRepository.findById(id)).thenReturn(Optional.ofNullable(user));
         Mockito.when(userDTOMapper.apply(user)).thenReturn(expectedDTO);
@@ -85,9 +83,9 @@ class UserServiceImplTest {
     void saveUser_shouldCallUserRepository_returnAndSaveUserDTO(){
         //given
         UserCreationRequest userCreationRequest = new UserCreationRequest(
-                "Fedor","Seleznev",19,"seleznev95@bk.ru", "password" ,Collections.singleton(new Role(2l,"USER")));
+                "Fartish","Cleared",28,"fartish@ch.ru", "password" ,Collections.singleton(new Role(2l,"USER")));
         User user =new User(
-                1L,"Fedor","Seleznev",19,"seleznev95@bk.ru","password", Collections.singleton(new Role(2l,"USER")));
+                1L,"Fartish","Cleared",28,"fartish@ch.ru","password", Collections.singleton(new Role(2l,"USER")));
         Role role = new Role(2l,"USER");
         //when
         Mockito.when(userRepository.save(Mockito.any())).thenReturn(user);
@@ -101,7 +99,7 @@ class UserServiceImplTest {
     void saveUser_shouldThrowConstrainViolationException_someFieldsIncorrect(){
         //given
         User user =new User(
-                1L,"","",19,"seleznev95@bk.ru","password", Collections.singleton(new Role(2l,"USER")));
+                1L,"","",19,"fartish@ch.ru","password", Collections.singleton(new Role(2l,"USER")));
         //when
         Mockito.when(userRepository.save(Mockito.any())).thenThrow(ConstraintViolationException.class);
         //then
@@ -112,8 +110,8 @@ class UserServiceImplTest {
     void deleteUser_shouldCallUserRepository_returnVoid(){
         //given
         Long id = 1L;
-        User user =new User(
-                1L,"Fedor","Seleznev",19,"seleznev95@bk.ru","password", Collections.singleton(new Role(2l,"USER")));
+        User user = new User(
+                1L,"Fartish","Cleared",28,"fartish@ch.ru","password", Collections.singleton(new Role(2l,"USER")));
         //when
         Mockito.when(userRepository.findById(id)).thenReturn(Optional.ofNullable(user));
         userService.deleteUser(id);
@@ -125,13 +123,11 @@ class UserServiceImplTest {
     void deleteUser_shouldThrowNoSuchElementException_userWithSuchIDNotExist(){
         //given
         Long id = 1984L;
-        User user =new User(
-                1L,"Fedor","Seleznev",19,"seleznev95@bk.ru","password", Collections.singleton(new Role(2l,"USER")));
+        User user = new User(
+                1L,"Fartish","Cleared",28,"fartish@ch.ru","password", Collections.singleton(new Role(2l,"USER")));
         //when
         Mockito.doThrow(new NoSuchElementException()).when(userRepository).deleteById(id);
         //then
         Assertions.assertThrows(NoSuchElementException.class, () -> userRepository.deleteById(id));
     }
-
-
 }

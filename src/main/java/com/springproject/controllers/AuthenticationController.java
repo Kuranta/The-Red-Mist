@@ -1,6 +1,5 @@
 package com.springproject.controllers;
 
-
 import com.springproject.dto.JwtRequest;
 import com.springproject.service.AuthenticationService;
 import org.springframework.beans.factory.annotation.Autowired;

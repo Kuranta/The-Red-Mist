@@ -13,12 +13,12 @@ import java.util.List;
 
 @RestController
 @RequestMapping(value = "/api")
-public class RestCrudController {
+public class UserController {
 
     private final UserService userService;
 
     @Autowired
-    public RestCrudController(UserService userService) {
+    public UserController(UserService userService) {
         this.userService = userService;
     }
 
@@ -34,9 +34,9 @@ public class RestCrudController {
 
     @PostMapping("/users")
     @SneakyThrows
-    public UserCreationRequest saveUser(@RequestBody UserCreationRequest userCreationRequest) {
-        userService.saveUser(userCreationRequest);
-        return userCreationRequest;
+    public User saveUser(@RequestBody UserCreationRequest userCreationRequest) {
+        return userService.saveUser(userCreationRequest);
+
     }
 
     @PatchMapping("/users/{id}")

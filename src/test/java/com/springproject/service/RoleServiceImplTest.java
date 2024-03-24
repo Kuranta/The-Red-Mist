@@ -31,8 +31,6 @@ class RoleServiceImplTest {
         //then
         Assertions.assertEquals(actualRoles,expectedRoles);
         Assertions.assertEquals(1, actualRoles.size());
-        
-        
     }
 
     @Test
