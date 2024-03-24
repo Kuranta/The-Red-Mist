@@ -56,7 +56,7 @@ public class UserServiceImpl implements UserService {
             roles.add(searchRole);
         }
         if (roles.size()<1){
-            throw new IllegalAccessException("User must have at lease one role");
+            throw new IllegalAccessException("User must have at least one role");
         }
         User user = new User()
                 .setFirstName(userCreationRequest.firstName())
@@ -64,7 +64,7 @@ public class UserServiceImpl implements UserService {
                 .setAge(userCreationRequest.age())
                 .setEmail(userCreationRequest.email())
                 .setPassword(passwordEncoder.encode(userCreationRequest.password()))
-                .setRoles(userCreationRequest.roles());
+                .setRoles(roles);
         userRepository.save(user);
         return user;
     }
@@ -80,7 +80,7 @@ public class UserServiceImpl implements UserService {
         }
 
         if (roles.size()<1){
-            throw new IllegalAccessException("User must have at lease one role");
+            throw new IllegalAccessException("User must have at least one role");
         }
         User user = new User()
                 .setId(updateDTO.id())
@@ -89,7 +89,7 @@ public class UserServiceImpl implements UserService {
                 .setAge(updateDTO.age())
                 .setEmail(updateDTO.email())
                 .setPassword(passwordEncoder.encode(updateDTO.password()))
-                .setRoles(updateDTO.roles());
+                .setRoles(roles);
         userRepository.save(user);
         return user;
     }
