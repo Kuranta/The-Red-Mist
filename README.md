@@ -11,6 +11,7 @@ Application contains authentication based on JWT.
     2. docker-compose run -d
     3. docker cp query.sql java-mysql:/query.sql
     4. Get-Content .\query.sql | docker exec -i java-mysql mysql -uroot -pkottom2 user
+    5. To perform CRUD operation you must authenticate. Email: test@mail.ru Password: test321
 
 http://localhost:8080/user - view for users.
 
