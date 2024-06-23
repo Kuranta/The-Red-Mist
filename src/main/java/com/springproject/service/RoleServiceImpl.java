@@ -11,7 +11,6 @@ import java.util.List;
 import java.util.NoSuchElementException;
 
 @Service
-@EnableTransactionManagement
 public class RoleServiceImpl implements RoleService{
     private final RoleRepository roleRepository;
 
@@ -21,7 +20,6 @@ public class RoleServiceImpl implements RoleService{
     }
 
     @Override
-    @Transactional
     public List<Role> getRoles() {
         return roleRepository.findAll();
     }
